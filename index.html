@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>img2ascii - Convert Images to ASCII Art & Braille</title>
+    <meta name="title" content="img2ascii - Convert Images to ASCII Art & Braille">
+    <meta name="description" content="Free online Image to ASCII converter. Easily transform your photos into text art, Braille, and custom character patterns. Fast, private, and works entirely in your browser.">
+    <meta name="keywords" content="img2ascii, image to ascii, ascii art generator, braille art converter, text art, convert photo to text, custom ascii pattern, text image maker">
+    <meta name="author" content="SoufianoDev">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="img2ascii - Convert Images to Text Art">
+    <meta property="og:description" content="Turn any picture into stunning ASCII or Braille art instantly. Fully customizable and free to use.">
+    <meta property="og:url" content="https://soufianodev.github.io/img2ascii">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="img2ascii - Image to Text Art Converter">
+    <meta name="twitter:description" content="Turn any picture into stunning ASCII or Braille art instantly. Fully customizable and free to use.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://soufianodev.github.io/img2ascii" />
+
+    <!-- Prevent Flash of Unstyled Content (FOUC) for Theme -->
+    <script>
+        if (localStorage.getItem('theme') === 'light' || (!('theme' in localStorage) && !window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        // Semantic MD3 Colors mapped to CSS Variables
+                        md: {
+                            bg: 'rgb(var(--color-bg) / <alpha-value>)',
+                            surface: 'rgb(var(--color-surface) / <alpha-value>)',
+                            surfaceContainer: 'rgb(var(--color-surface-container) / <alpha-value>)',
+                            surfaceContainerHigh: 'rgb(var(--color-surface-container-high) / <alpha-value>)',
+                            primary: 'rgb(var(--color-primary) / <alpha-value>)',
+                            onPrimary: 'rgb(var(--color-on-primary) / <alpha-value>)',
+                            primaryContainer: 'rgb(var(--color-primary-container) / <alpha-value>)',
+                            onPrimaryContainer: 'rgb(var(--color-on-primary-container) / <alpha-value>)',
+                            onSurface: 'rgb(var(--color-on-surface) / <alpha-value>)',
+                            onSurfaceVariant: 'rgb(var(--color-on-surface-variant) / <alpha-value>)',
+                            outline: 'rgb(var(--color-outline) / <alpha-value>)',
+                            outputBg: 'rgb(var(--color-output-bg) / <alpha-value>)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'system-ui', 'sans-serif'],
+                        mono: ['"Fira Code"', '"Courier New"', 'monospace']
+                    },
+                    transitionProperty: {
+                        'theme': 'background-color, border-color, color, fill, stroke, box-shadow',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Roboto:wght@400;500;700&display=swap');
+
+        /* Modern MD3 Color System (Neutral Blue-Gray Base) */
+        :root {
+            /* Light Mode Palette */
+            --color-bg: 248 249 252;
+            --color-surface: 255 255 255;
+            --color-surface-container: 241 243 247;
+            --color-surface-container-high: 232 234 239;
+            
+            --color-primary: 67 56 202; /* Indigo 700 */
+            --color-on-primary: 255 255 255;
+            --color-primary-container: 224 231 255; /* Indigo 100 */
+            --color-on-primary-container: 49 46 129; /* Indigo 900 */
+            
+            --color-on-surface: 26 28 30;
+            --color-on-surface-variant: 83 87 96;
+            --color-outline: 140 146 157;
+            
+            --color-output-bg: 241 243 247; /* Soft light output */
+        }
+
+        .dark {
+            /* Dark Mode Palette (Eye-friendly, no pure blacks) */
+            --color-bg: 15 17 21;
+            --color-surface: 22 25 31;
+            --color-surface-container: 30 34 43;
+            --color-surface-container-high: 40 46 56;
+            
+            --color-primary: 165 180 252; /* Indigo 300 - Desaturated for dark mode */
+            --color-on-primary: 26 28 30;
+            --color-primary-container: 49 46 129; /* Indigo 900 */
+            --color-on-primary-container: 224 231 255; /* Indigo 100 */
+            
+            --color-on-surface: 226 228 233;
+            --color-on-surface-variant: 156 163 175;
+            --color-outline: 75 85 99;
+            
+            --color-output-bg: 10 12 15; /* Deep contrast for ASCII art */
+        }
+
+        body {
+            background-color: rgb(var(--color-bg));
+            color: rgb(var(--color-on-surface));
+            /* Smooth transition for theme switching */
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Fixed container constraint for the output */
+        .output-container {
+            height: 550px;
+            max-height: 65vh;
+            overflow: auto;
+            background-color: rgb(var(--color-output-bg));
+            transition: background-color 0.4s ease;
+        }
+
+        /* Strict Monospace Rendering rules */
+        .ascii-output {
+            font-family: theme('fontFamily.mono');
+            white-space: pre;
+            text-align: left;
+            letter-spacing: 0;
+            display: inline-block;
+            font-size: var(--ascii-font-size, 8px);
+            line-height: var(--ascii-line-height, 0.65);
+        }
+
+        /* Scrollbar Styling for MD3 feel */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgb(var(--color-outline) / 0.5);
+            border-radius: 12px;
+            border: 3px solid rgb(var(--color-output-bg));
+            background-clip: padding-box;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgb(var(--color-outline) / 0.8);
+        }
+
+        /* Material Design 3 Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, rgb(var(--color-primary)) var(--slider-percent, 21%), rgb(var(--color-surface-container-high)) var(--slider-percent, 21%));
+            border-radius: 6px;
+            outline: none;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: rgb(var(--color-primary));
+            cursor: pointer;
+            box-shadow: 0 0 0 0 rgba(var(--color-primary), 0.12);
+            transition: box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1), transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+        }
+        input[type=range]:hover::-webkit-slider-thumb {
+            box-shadow: 0 0 0 10px rgb(var(--color-primary) / 0.12);
+        }
+        input[type=range]:active::-webkit-slider-thumb {
+            box-shadow: 0 0 0 14px rgb(var(--color-primary) / 0.24);
+            transform: scale(1.1);
+        }
+        
+        /* Firefox specific slider styles */
+        input[type=range]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border: none;
+            border-radius: 50%;
+            background: rgb(var(--color-primary));
+            cursor: pointer;
+            box-shadow: 0 0 0 0 rgba(var(--color-primary), 0.12);
+            transition: box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1), transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+        }
+        input[type=range]:hover::-moz-range-thumb {
+            box-shadow: 0 0 0 10px rgb(var(--color-primary) / 0.12);
+        }
+        input[type=range]:active::-moz-range-thumb {
+            box-shadow: 0 0 0 14px rgb(var(--color-primary) / 0.24);
+            transform: scale(1.1);
+        }
+        input[type=range]::-moz-range-track {
+            background: transparent;
+        }
+
+        /* Loading Spinner Animation */
+        .spinner {
+            border: 3px solid rgb(var(--color-on-surface) / 0.1);
+            border-radius: 50%;
+            border-top: 3px solid rgb(var(--color-primary));
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col p-4 md:p-6 lg:p-8 selection:bg-md-primary selection:text-md-onPrimary">
+
+    <!-- Header -->
+    <header class="max-w-7xl w-full mx-auto mb-8 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-md-primaryContainer rounded-xl flex items-center justify-center text-md-onPrimaryContainer shadow-sm transition-theme duration-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold text-md-onSurface tracking-tight">ImageToAscii</h1>
+                <p class="text-md-onSurfaceVariant text-sm">Convert images to ASCII, Braille & Text Art</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <!-- Theme Toggle Button -->
+            <button id="themeToggleBtn" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-md-surfaceContainerHigh text-md-onSurfaceVariant hover:text-md-onSurface transition-theme duration-300" title="Toggle Theme">
+                <!-- Sun Icon (shows in dark mode) -->
+                <svg id="iconSun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                <!-- Moon Icon (shows in light mode) -->
+                <svg id="iconMoon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            </button>
+
+            <!-- Reset Button -->
+            <button id="resetBtn" class="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-md-surfaceContainerHigh text-md-onSurfaceVariant hover:text-md-onSurface transition-theme duration-300 font-medium text-sm" title="Reset all settings">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                <span class="hidden sm:inline">Reset</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <main class="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow">
+        
+        <!-- Left Column: Controls (4 cols wide on lg) -->
+        <div class="lg:col-span-4 flex flex-col gap-6">
+            
+            <!-- Input Card -->
+            <div class="bg-md-surface rounded-[24px] p-6 shadow-sm border border-md-surfaceContainer transition-theme duration-300">
+                <h2 class="text-base font-semibold mb-4 text-md-onSurface">Image Source</h2>
+                
+                <div id="dropZone" class="w-full flex flex-col items-center justify-center px-6 py-8 bg-md-surfaceContainer rounded-[16px] border-2 border-dashed border-md-outline/40 cursor-pointer hover:bg-md-surfaceContainerHigh hover:border-md-primary transition-all text-center group">
+                    <div class="w-12 h-12 bg-md-surfaceContainerHigh group-hover:bg-md-primaryContainer rounded-full flex items-center justify-center mb-3 transition-colors">
+                        <svg class="w-6 h-6 text-md-onSurfaceVariant group-hover:text-md-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                    </div>
+                    <span class="text-sm font-medium text-md-onSurface">Click or drag image</span>
+                    <span class="text-xs text-md-onSurfaceVariant mt-1">PNG, JPG, WEBP • Supports Ctrl+V</span>
+                    <input type="file" id="imageInput" class="hidden" accept="image/*">
+                </div>
+            </div>
+
+            <!-- Settings Card -->
+            <div class="bg-md-surface rounded-[24px] p-6 shadow-sm border border-md-surfaceContainer flex-grow transition-theme duration-300">
+                <h2 class="text-base font-semibold mb-6 text-md-onSurface">Generation Settings</h2>
+                
+                <div class="space-y-6">
+                    <!-- Style Preset -->
+                    <div>
+                        <label class="block text-xs font-semibold tracking-wide text-md-onSurfaceVariant uppercase mb-2">Style Preset</label>
+                        <div class="relative">
+                            <select id="presetSelect" class="w-full bg-md-surfaceContainer text-md-onSurface px-4 py-3 rounded-xl border border-transparent focus:border-md-primary focus:bg-md-surface focus:outline-none transition-theme duration-200 appearance-none cursor-pointer font-medium text-sm">
+                                <option value="braille">Braille (High Detail Outline)</option>
+                                <option value="classic">Classic ( .:-=+*#%@)</option>
+                                <option value="minimal" selected>Minimal ( +#:)</option>
+                                <option value="blocks">Blocks ( ░▒▓█)</option>
+                                <option value="custom">Custom Pattern</option>
+                            </select>
+                            <svg class="w-4 h-4 text-md-onSurfaceVariant absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- Custom Pattern -->
+                    <div>
+                        <label class="flex justify-between items-center text-xs font-semibold tracking-wide text-md-onSurfaceVariant uppercase mb-2">
+                            <span>Character Map</span>
+                            <span class="text-[10px] bg-md-surfaceContainer px-2 py-0.5 rounded text-md-outline normal-case" title="Left is lightest, Right is darkest">Light → Dark</span>
+                        </label>
+                        <input type="text" id="patternInput" value=" :+#" class="w-full bg-md-surfaceContainer text-md-onSurface px-4 py-3 rounded-xl border border-transparent focus:border-md-primary focus:bg-md-surface focus:outline-none font-mono tracking-[0.2em] disabled:opacity-50 transition-theme duration-200">
+                    </div>
+
+                    <!-- Resolution -->
+                    <div>
+                        <label class="flex justify-between text-xs font-semibold tracking-wide text-md-onSurfaceVariant uppercase mb-2">
+                            <span>Resolution Width</span>
+                            <span id="widthDisplay" class="font-mono text-md-primary bg-md-primaryContainer text-md-onPrimaryContainer px-2 py-0.5 rounded text-[10px]">100px</span>
+                        </label>
+                        <input type="range" id="widthSlider" min="20" max="400" value="100" class="w-full mt-3">
+                    </div>
+
+                    <hr class="border-md-surfaceContainerHigh">
+
+                    <!-- Invert -->
+                    <label class="flex items-center gap-3 p-3 bg-md-surfaceContainer rounded-xl cursor-pointer hover:bg-md-surfaceContainerHigh transition-theme duration-200 border border-transparent hover:border-md-outline/20">
+                        <div class="relative flex items-center">
+                            <input type="checkbox" id="invertCheck" class="peer appearance-none w-5 h-5 border-2 border-md-outline rounded-md checked:bg-md-primary checked:border-md-primary transition-all">
+                            <svg class="absolute w-3.5 h-3.5 text-md-onPrimary left-0.5 top-0.5 opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-sm font-medium text-md-onSurface select-none">Invert Values</span>
+                            <span class="text-xs text-md-onSurfaceVariant select-none">Optimizes output for current theme</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Output Area (8 cols wide on lg) -->
+        <div class="lg:col-span-8 flex flex-col">
+            <div class="bg-md-surface rounded-[24px] shadow-sm border border-md-surfaceContainer flex flex-col h-full overflow-hidden relative transition-theme duration-300">
+                
+                <!-- Output Header / Toolbar -->
+                <div class="px-6 py-4 border-b border-md-surfaceContainer flex items-center justify-between bg-md-surface z-10">
+                    <h2 class="text-base font-semibold text-md-onSurface flex items-center gap-2">
+                        <svg class="w-5 h-5 text-md-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                        Output Canvas
+                    </h2>
+                    
+                    <div class="flex items-center gap-2">
+                        <button id="copyBtn" disabled class="flex items-center gap-2 px-4 py-2 bg-md-surfaceContainer hover:bg-md-surfaceContainerHigh text-md-onSurface font-medium text-sm rounded-full disabled:opacity-40 disabled:cursor-not-allowed transition-theme duration-200">
+                            <svg id="copyIcon" class="w-4 h-4 text-md-onSurfaceVariant" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <svg id="copySuccessIcon" class="w-4 h-4 text-emerald-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span id="copyText">Copy text</span>
+                        </button>
+                        
+                        <button id="downloadBtn" disabled class="flex items-center gap-2 px-4 py-2 bg-md-primary text-md-onPrimary font-medium text-sm rounded-full hover:bg-opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            <span>Save .txt</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Fixed Size Output Container -->
+                <div class="output-container relative w-full flex-grow p-4 md:p-8 flex justify-center" id="scrollContainer">
+                    
+                    <!-- Loading Overlay -->
+                    <div id="loadingOverlay" class="absolute inset-0 bg-md-outputBg/80 flex flex-col items-center justify-center z-20 hidden backdrop-blur-sm transition-theme duration-300">
+                        <div class="spinner mb-4"></div>
+                        <span class="text-sm font-medium text-md-onSurface">Rendering canvas...</span>
+                    </div>
+
+                    <!-- Placeholder -->
+                    <div id="placeholderText" class="absolute inset-0 flex flex-col items-center justify-center text-md-onSurfaceVariant/60 select-none">
+                        <svg class="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <p class="text-sm">Awaiting image input</p>
+                    </div>
+
+                    <!-- Actual ASCII Content -->
+                    <div id="asciiOutput" class="ascii-output text-md-onSurface opacity-0 transition-opacity duration-300"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Hidden Canvas for Processing -->
+    <canvas id="hiddenCanvas" class="hidden"></canvas>
+
+    <script>
+        // ==========================================
+        // THEME MANAGEMENT (Dark/Light Mode)
+        // ==========================================
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const htmlElement = document.documentElement;
+
+        function applyTheme(isDark) {
+            if (isDark) {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = htmlElement.classList.contains('dark');
+            applyTheme(!isDark);
+        });
+
+        // ==========================================
+        // DOM ELEMENTS & STATE
+        // ==========================================
+        const dropZone = document.getElementById('dropZone');
+        const imageInput = document.getElementById('imageInput');
+        const presetSelect = document.getElementById('presetSelect');
+        const patternInput = document.getElementById('patternInput');
+        const widthSlider = document.getElementById('widthSlider');
+        const widthDisplay = document.getElementById('widthDisplay');
+        const invertCheck = document.getElementById('invertCheck');
+        
+        const asciiOutput = document.getElementById('asciiOutput');
+        const placeholderText = document.getElementById('placeholderText');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const scrollContainer = document.getElementById('scrollContainer');
+        
+        const copyBtn = document.getElementById('copyBtn');
+        const copyIcon = document.getElementById('copyIcon');
+        const copySuccessIcon = document.getElementById('copySuccessIcon');
+        const copyText = document.getElementById('copyText');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        
+        const canvas = document.getElementById('hiddenCanvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+        const PRESETS = {
+            'classic': ' .:-=+*#%@',
+            'minimal': ' :+#',
+            'blocks': ' ░▒▓█'
+        };
+
+        let currentImage = null;
+        let processTimeout = null;
+
+        // ==========================================
+        // INPUT HANDLING
+        // ==========================================
+        
+        dropZone.addEventListener('click', () => imageInput.click());
+        imageInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+        function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.add('border-md-primary', 'bg-md-primaryContainer/10'), false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.remove('border-md-primary', 'bg-md-primaryContainer/10'), false);
+        });
+        
+        dropZone.addEventListener('drop', (e) => handleFiles(e.dataTransfer.files));
+
+        window.addEventListener('paste', (e) => {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (let index in items) {
+                const item = items[index];
+                if (item.kind === 'file' && item.type.includes('image/')) {
+                    handleFiles([item.getAsFile()]);
+                    break;
+                }
+            }
+        });
+
+        function handleFiles(files) {
+            if (!files || files.length === 0) return;
+            const file = files[0];
+            if (!file.type.startsWith('image/')) {
+                alert('Please provide a valid image file.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    currentImage = img;
+                    queueProcessing();
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ==========================================
+        // UI BINDINGS
+        // ==========================================
+
+        function updateSliderFill() {
+            const min = widthSlider.min || 20;
+            const max = widthSlider.max || 400;
+            const val = widthSlider.value;
+            const percent = ((val - min) / (max - min)) * 100;
+            widthSlider.style.setProperty('--slider-percent', `${percent}%`);
+        }
+
+        updateSliderFill();
+
+        widthSlider.addEventListener('input', () => {
+            widthDisplay.textContent = widthSlider.value + 'px';
+            updateSliderFill();
+            queueProcessing(150);
+        });
+
+        presetSelect.addEventListener('change', () => {
+            const val = presetSelect.value;
+            if (val === 'braille') {
+                patternInput.disabled = true;
+                patternInput.value = '⣿⣾⣷⣆⣄⡤⢄⠤⠄'; 
+            } else {
+                patternInput.disabled = false;
+                if (val !== 'custom') {
+                    patternInput.value = PRESETS[val];
+                }
+            }
+            queueProcessing();
+        });
+
+        patternInput.addEventListener('input', () => {
+            presetSelect.value = 'custom';
+            queueProcessing(300);
+        });
+
+        invertCheck.addEventListener('change', () => queueProcessing());
+
+        resetBtn.addEventListener('click', () => {
+            currentImage = null;
+            presetSelect.value = 'minimal';
+            patternInput.value = ' :+#';
+            patternInput.disabled = false;
+            widthSlider.value = 100;
+            widthDisplay.textContent = '100px';
+            updateSliderFill();
+            invertCheck.checked = false;
+            
+            asciiOutput.textContent = '';
+            asciiOutput.style.opacity = '0';
+            placeholderText.style.display = 'flex';
+            
+            copyBtn.disabled = true;
+            downloadBtn.disabled = true;
+            imageInput.value = '';
+        });
+
+        // ==========================================
+        // CORE RENDERING ENGINE
+        // ==========================================
+
+        function queueProcessing(delay = 50) {
+            if (!currentImage) return;
+            loadingOverlay.classList.remove('hidden');
+            clearTimeout(processTimeout);
+            processTimeout = setTimeout(() => {
+                requestAnimationFrame(() => generateASCII());
+            }, delay);
+        }
+
+        function generateASCII() {
+            if (!currentImage) return;
+
+            const targetCharWidth = parseInt(widthSlider.value);
+            const preset = presetSelect.value;
+            const invert = invertCheck.checked;
+            
+            let asciiStr = "";
+
+            if (preset === 'braille') {
+                asciiOutput.style.setProperty('--ascii-line-height', '1');
+                
+                const pixelWidth = targetCharWidth * 2;
+                const scale = pixelWidth / currentImage.width;
+                const pixelHeight = Math.floor(currentImage.height * scale);
+                const targetCharHeight = Math.floor(pixelHeight / 4);
+                
+                canvas.width = pixelWidth;
+                canvas.height = targetCharHeight * 4;
+                
+                ctx.drawImage(currentImage, 0, 0, canvas.width, canvas.height);
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const pixels = imageData.data;
+
+                const getLuminance = (x, y) => {
+                    if (x >= canvas.width || y >= canvas.height) return 0;
+                    const idx = (y * canvas.width + x) * 4;
+                    return 0.2126 * pixels[idx] + 0.7152 * pixels[idx+1] + 0.0722 * pixels[idx+2];
+                };
+
+                const threshold = 128;
+
+                for (let y = 0; y < canvas.height; y += 4) {
+                    for (let x = 0; x < canvas.width; x += 2) {
+                        let dotValue = 0;
+                        const isDotOn = (bx, by) => {
+                            let lum = getLuminance(bx, by);
+                            return invert ? lum < threshold : lum > threshold;
+                        };
+
+                        if (isDotOn(x, y)) dotValue += 1;
+                        if (isDotOn(x, y+1)) dotValue += 2;
+                        if (isDotOn(x, y+2)) dotValue += 4;
+                        if (isDotOn(x+1, y)) dotValue += 8;
+                        if (isDotOn(x+1, y+1)) dotValue += 16;
+                        if (isDotOn(x+1, y+2)) dotValue += 32;
+                        if (isDotOn(x, y+3)) dotValue += 64;
+                        if (isDotOn(x+1, y+3)) dotValue += 128;
+
+                        asciiStr += String.fromCharCode(10240 + dotValue);
+                    }
+                    asciiStr += "\n";
+                }
+            } else {
+                asciiOutput.style.setProperty('--ascii-line-height', '0.65'); 
+                
+                const scale = targetCharWidth / currentImage.width;
+                const targetCharHeight = Math.floor((currentImage.height * scale) * 0.55); 
+
+                canvas.width = targetCharWidth;
+                canvas.height = targetCharHeight;
+
+                ctx.drawImage(currentImage, 0, 0, targetCharWidth, targetCharHeight);
+                const imageData = ctx.getImageData(0, 0, targetCharWidth, targetCharHeight);
+                const pixels = imageData.data;
+
+                let customPattern = patternInput.value || " ";
+                const asciiChars = customPattern.split('');
+                if (invert) asciiChars.reverse();
+                
+                const charCount = asciiChars.length - 1;
+
+                for (let i = 0; i < pixels.length; i += 4) {
+                    const r = pixels[i];
+                    const g = pixels[i+1];
+                    const b = pixels[i+2];
+                    
+                    const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+                    const charIndex = Math.round((luminance / 255) * charCount);
+                    
+                    asciiStr += asciiChars[Math.max(0, Math.min(charIndex, charCount))];
+                    if (((i / 4) + 1) % targetCharWidth === 0) {
+                        asciiStr += "\n";
+                    }
+                }
+            }
+
+            asciiOutput.textContent = asciiStr;
+            placeholderText.style.display = 'none';
+            asciiOutput.style.opacity = '1';
+            
+            copyBtn.disabled = false;
+            downloadBtn.disabled = false;
+            
+            scrollContainer.scrollTop = 0;
+            scrollContainer.scrollLeft = Math.max(0, (asciiOutput.offsetWidth - scrollContainer.offsetWidth) / 2);
+
+            setTimeout(() => loadingOverlay.classList.add('hidden'), 100);
+        }
+
+        // ==========================================
+        // OUTPUT ACTIONS
+        // ==========================================
+
+        copyBtn.addEventListener('click', async () => {
+            const textToCopy = asciiOutput.textContent;
+            if (!textToCopy) return;
+
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(textToCopy);
+                } else {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = textToCopy;
+                    textArea.style.position = "fixed";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                }
+                
+                copyIcon.classList.add('hidden');
+                copySuccessIcon.classList.remove('hidden');
+                copyText.textContent = 'Copied!';
+                copyBtn.classList.add('bg-emerald-500/10', 'text-emerald-500', 'border', 'border-emerald-500/20');
+                
+                setTimeout(() => {
+                    copyIcon.classList.remove('hidden');
+                    copySuccessIcon.classList.add('hidden');
+                    copyText.textContent = 'Copy text';
+                    copyBtn.classList.remove('bg-emerald-500/10', 'text-emerald-500', 'border', 'border-emerald-500/20');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            if (!asciiOutput.textContent) return;
+            const blob = new Blob([asciiOutput.textContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `img2ascii-${Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+    </script>
+</body>
+</html>
