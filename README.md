@@ -1,12 +1,26 @@
 # img2ascii
 
+```
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⡟⠛⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠛⠛⠛⠛⠛⠛⣿⣿⣿⣿⣿⣿⣿⣿⠟⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⡇⠀⢸⡟⠛⠿⠛⠛⠿⠟⠛⠻⣿⡿⠟⠛⠛⠻⣿⣿⠟⠛⠻⠛⢻⣿⡿⠛⠛⠻⢿⣿⣿⣷⠀⢰⣿⣿⠿⠛⠛⠻⢿⣿⣿⡟⠀⡀⠘⣿⣿⡿⠟⠛⠛⠿⣿⡿⠟
+⣿⣿⣿⣿⣿⣿⡇⠀⢸⡇⠀⣴⣷⠀⠀⣾⣧⠀⢸⣷⠶⠛⠃⠀⢹⠃⢀⣾⣷⠀⢸⡏⠀⠰⠿⠂⠀⣿⣿⣿⠀⢸⣿⡏⠀⣴⣿⡆⠀⣿⡿⠁⢰⣷⡀⠸⣿⣇⠀⠻⠷⢤⣿⠁⢠
+⣿⣿⣿⣿⣿⣿⡇⠀⢸⡇⠀⣿⣿⠀⠀⣿⣿⠀⢸⠁⠀⣾⠇⠀⢸⡄⠈⢿��⠀⢸⣇⠀⠰⣶⠶⢶⣿⣿⣿⠀⢸⣿⣇⠀⠻⡿⠇⠀⣿⠃⢀⣤⣤⣀⠀⢹⡛⠳⣶⡦⠀⣹⡀⠘
+⣿⣿⣿⣿⣿⣿⣧⣤⣼⣧⣤⣿⣿⣤⣤⣿⣿⣤⣼⣷⣤⣤⣶⣤⣼⣿⢦⣤⡴⠀⢸⣿⣷⣦⣤⣤⣾⣿⣿⣿⣤⣼⣿⣿⣷⣤⣤⣴⣾⣧⣤⣼⣿⣿⣿⣤⣤⣷⣦⣤⣤⣶⣿⣿⣦
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣀⣠⣤⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+```
+
 Convert any image to high-fidelity Braille text art — entirely in the browser, zero dependencies, no server.
+
+**[Live Demo](https://soufianodev.github.io/img2ascii)** · **[Repository](https://github.com/SoufianoDev/img2ascii)** · **[Report a Bug](https://github.com/SoufianoDev/img2ascii/issues)**
 
 ---
 
 ## Overview
 
-`img2ascii` is a single-file, client-side tool that reads pixel luminance from the HTML5 Canvas API and maps it to a high-fidelity Unicode Braille grid in real time.
+`img2ascii` is a single-file, client-side tool that converts images into Unicode Braille text art in real time. Your images stay in your browser — no uploads, no tracking, no servers.
 
 No build step. No package manager. No backend. The entire application lives in one `index.html`.
 
@@ -16,20 +30,30 @@ No build step. No package manager. No backend. The entire application lives in o
 
 | Feature | Detail |
 |---|---|
-| **Braille rendering** | Groups 2×4 pixel blocks into a single Unicode Braille codepoint (U+2800–U+28FF), producing ~4× effective resolution |
+| **Braille rendering** | High-fidelity Unicode Braille output with ~4× effective resolution |
 | **Multilingual (I18n)** | Full support for English (LTR) and Arabic (RTL) dynamically switchable |
-| **Edge Sharpening** | Custom convolution matrix to enhance outlines and crispness |
-| **Gamma Thresholding** | Dynamic gamma curve adjustments for precise contrast control |
-| **Floyd-Steinberg Dithering** | Smooths out gradients and eliminates banding in the output |
-| **Resolution & Zoom** | Width slider from 50 to 400 characters, with independent display zoom controls |
-| **Invert matrix** | Flips the brightness logic — useful when switching between dark and light backgrounds |
-| **Drag & drop / paste** | Drop image files onto the upload zone or paste from clipboard |
-| **Copy to clipboard** | Writes output to clipboard with a robust fallback for older browsers |
-| **Save as `.txt`** | Downloads the current output via `Blob` + object URL |
+| **Edge Sharpening** | Enhance outlines for crisp, clear text art |
+| **Gamma Thresholding** | Precise contrast and brightness control |
+| **Floyd-Steinberg Dithering** | Smooth gradients without banding |
+| **Resolution & Zoom** | Width slider (50–400 characters), independent display zoom |
+| **Invert matrix** | Toggle brightness logic for dark/light backgrounds |
+| **Drag & drop / paste** | Load images via drag-and-drop, file browser, or clipboard (`Ctrl+V` / `Cmd+V`) |
+| **Copy to clipboard** | One-click export with fallback for older browsers |
+| **Save as `.txt`** | Download output as a text file |
 
 ---
 
-## Local Development
+## Why This Exists
+
+Most online converters upload your image to a remote server, require an account, or add noise with ads and friction. `img2ascii` does none of that. The image never leaves your browser — all processing happens locally using the Canvas API.
+
+The Braille mode is a specific design choice: each Unicode Braille character encodes a 2×4 dot matrix (8 binary pixels per cell), which gives substantially more spatial information per character than ASCII alone.
+
+---
+
+## Getting Started
+
+### Local Development
 
 The project has no build toolchain. Clone and open.
 
@@ -59,107 +83,63 @@ Then open `http://localhost:8080`.
 
 No `.env`, no dependencies, no configuration required.
 
----
+### Usage
 
-## Architecture
-
-### Project structure
-
-```
-img2ascii/
-└── index.html    # Entire application — markup, styles, fonts, and logic in one file
-```
-
-All CSS (Tailwind utility classes + custom UI elements), HTML, and JavaScript are contained in `index.html`.
-
-### Rendering pipeline
-
-```
-Image source (File / Drop / Clipboard)
-          │
-          ▼
-  FileReader.readAsDataURL()
-  → new Image() → img.onload
-          │
-          ▼
-  Intermediate Canvas (Scaling & Sharpening)
-  — applies Custom Sharpen Convolution Matrix —
-          │
-          ▼
-  Final Rendering Canvas (Exact Pixel Grid)
-  — ctx.getImageData() → Uint8ClampedArray (RGBA)
-          │
-          ▼
-  Gamma Curve & Threshold Calculation
-          │
-          ▼
-  Floyd-Steinberg Dithering (Optional)
-          │
-          ▼
-  Braille Assembly
-  — Grouping 2x4 pixel blocks into Unicode Braille
-          │
-          ▼
-  Output injected to DOM
-```
-
-**Braille High-Fidelity Rendering** — eight pixels per character cell:
-
-Each 2×4 pixel block maps to a Braille dot number via the standard Unicode Braille bit layout:
-
-```
-Pixel (col, row)  →  Braille dot bit
-(0,0) → bit 1 (value   1)    (1,0) → bit 4 (value   8)
-(0,1) → bit 2 (value   2)    (1,1) → bit 5 (value  16)
-(0,2) → bit 3 (value   4)    (1,2) → bit 6 (value  32)
-(0,3) → bit 7 (value  64)    (1,3) → bit 8 (value 128)
-```
-
-The rendering engine measures the exact font aspect ratio to ensure pixel-perfect scaling. Each pixel's luminance is calculated, normalized, passed through a gamma curve, and optionally dithered.
-
-### Multilingual & UI System
-
-The application uses a lightweight I18n engine (`translations` dictionary) to switch between English and Arabic. When the language changes, it dynamically updates `document.documentElement.dir` to handle text direction.
-
-Sliders implement a dynamic CSS variable `--slider-dir` to gracefully invert fill directions based on the active language direction.
+1. **Load an image** — drop onto the zone, click to browse, or paste (`Ctrl+V` / `Cmd+V`)
+2. **Adjust size** — use the **Width** slider (50–400 characters); height scales automatically
+3. **Fine-tune details**:
+   - **Edge Sharpening** — enhance outlines
+   - **Threshold (Gamma)** — control contrast
+   - **Smooth Dithering** — smooth gradients
+4. **Toggle options**:
+   - **Invert Matrix** — flip brightness (useful for light backgrounds)
+   - **Display Zoom** — scale font size without changing resolution
+5. **Export** — copy to clipboard or save as `.txt`
 
 ---
 
-## Performance
+## Privacy & Security
 
-The main cost is `ctx.getImageData()` — a GPU-to-CPU pixel readback — alongside the new Sharpening Matrix and Dithering algorithms. The canvas context is created with `{ willReadFrequently: true }`.
+All image processing is local. The application:
 
-Practical limits:
-
-- Up to ~300 character width renders in ~200 ms on modern hardware.
-- The slider caps at 400 characters wide. Beyond this, performance degrades noticeably on large source images.
-- All processing runs on the main thread. Very large images at maximum resolution will produce a brief freeze. A Web Worker offload is on the roadmap.
+- Makes no network requests after initial page load
+- Does not send your image anywhere
+- Stores only theme and language preference in `localStorage`
+- Contains no analytics, telemetry, or third-party tracking scripts
+- Only accesses the clipboard on explicit user action
 
 ---
 
-## Browser Compatibility
+## Accessibility
 
-Requires: Canvas API (`getImageData`), `FileReader`, `DataTransfer`, `Clipboard API`.
+- **Theme toggle** — responds to `prefers-color-scheme` on first load
+- **RTL support** — Arabic language provides full interface mirroring
+- **Keyboard accessible** — all controls are standard HTML elements
+- **Monospace font** — `Fira Code` / `Courier New` for consistent spacing
 
-| Browser | Minimum version | Notes |
+**Known limitation:** Braille output is visual art and not meaningfully interpretable by screen readers. If sharing output publicly, include a text description of the source image.
+
+---
+
+## Browser Support
+
+| Browser | Min Version | Notes |
 |---|---|---|
 | Chrome / Edge | 90+ | Full support |
 | Firefox | 88+ | Full support |
-| Safari | 14+ | Clipboard paste requires a user gesture; `navigator.clipboard` needs explicit permission |
+| Safari | 14+ | Clipboard paste requires user gesture |
 | Opera | 76+ | Full support |
-
-The clipboard write fallback (`document.execCommand('copy')`) is used with an invisible `<textarea>` when `navigator.clipboard.writeText` is unavailable or insecure contexts block it.
 
 ---
 
 ## Contributing
 
-1. Fork the repository and branch from `main`.
-2. Make your changes. Keep the zero-dependency, single-file constraint unless there is a strong case for an exception.
-3. Test in at least Chrome and Firefox before opening a PR.
-4. Open a pull request with a clear description of what changed and why.
+1. Fork the repository and branch from `main`
+2. Make your changes. Keep the zero-dependency, single-file constraint unless there is a strong case for an exception
+3. Test in at least Chrome and Firefox before opening a PR
+4. Open a pull request with a clear description of what changed and why
 
-For bug reports: include browser version, OS, and the preset/settings state when the issue occurred. A small test image that reproduces the problem is helpful.
+**Bug reports:** include browser version, OS, the settings state when the issue occurred, and a small test image that reproduces the problem.
 
 ---
 
