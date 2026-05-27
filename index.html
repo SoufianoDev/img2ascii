@@ -1,96 +1,110 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr" class="dark">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="title" content="img2ascii - Convert Images to ASCII Art & Braille">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>img2ascii - Image to ASCII Art Converter</title>
     <meta name="description"
-        content="Free online Image to ASCII converter. Easily transform your photos into text art, Braille, and custom character patterns. Fast, private, and works entirely in your browser.">
+        content="Free, high-fidelity online tool to convert JPEG, PNG, SVG, and WEBP images into beautiful ASCII art patterns. Featuring real-time live synchronization.">
     <meta name="keywords"
-        content="img2ascii, image to ascii, ascii art generator, braille art converter, text art, convert photo to text, custom ascii pattern, text image maker">
-    <meta name="author" content="SoufianoDev">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="English">
+        content="image to ascii, ascii art generator, SVG to ASCII, real-time ascii, text art creator">
 
-    <!-- Open Graph / Facebook -->
+    <!-- 2026 SEO Canonicalization -->
+    <link rel="canonical" href="https://soufianodev.github.io/img2ascii/">
+
+    <!-- Open Graph / Facebook Social Discovery -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="img2ascii - Convert Images to Text Art">
+    <meta property="og:url" content="https://soufianodev.github.io/img2ascii/">
+    <meta property="og:title" content="img2ascii - Real-time Image to ASCII Art Converter">
     <meta property="og:description"
-        content="Turn any picture into stunning ASCII or Braille art instantly. Fully customizable and free to use.">
-    <meta property="og:url" content="https://soufianodev.github.io/img2ascii">
+        content="Convert your JPEG, SVG, PNG, and WEBP images into scalable, copy-pasteable ASCII text art instantly.">
+    <meta property="og:image" content="https://soufianodev.github.io/img2ascii/img2ascii.svg">
 
-    <!-- Twitter -->
+    <!-- Twitter Social Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="img2ascii - Image to Text Art Converter">
+    <meta name="twitter:url" content="https://soufianodev.github.io/img2ascii/">
+    <meta name="twitter:title" content="img2ascii - Image to ASCII Art Converter">
     <meta name="twitter:description"
-        content="Turn any picture into stunning ASCII or Braille art instantly. Fully customizable and free to use.">
+        content="Instantly transform photos, outline graphics, and SVG files into crisp text art with dynamic customization sliders.">
+    <meta name="twitter:image" content="https://soufianodev.github.io/img2ascii/img2ascii.svg">
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://soufianodev.github.io/img2ascii" />
-
-    <title>img2ascii - Image to ASCII Art & Braille</title>
-    <meta name="description"
-        content="Free online Image to ASCII converter. Easily transform your photos into text art, Braille, and custom character patterns." />
-
+    <!-- JSON-LD Structured Data for AI Search Engines & Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "img2ascii",
+      "alternateName": "Image to ASCII Generator",
+      "url": "https://soufianodev.github.io/img2ascii/",
+      "image": "https://soufianodev.github.io/img2ascii/img2ascii.svg",
+      "description": "An interactive, web-based tool that transforms image files into ASCII text art layouts dynamically.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires HTML5 Canvas and JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "JPEG, PNG, SVG, and WEBP image formats supported",
+        "ASCII rendering utilizing high-fidelity subpixel density algorithms",
+        "Real-time preview synchronization across duplicate browser windows",
+        "Flexible scaling, gamma adjustment, and edge sharpening filters",
+        "Floyd-Steinberg smooth dithering engine integration"
+      ]
+    }
+    </script>
+    
     <!-- Prevent Flash of Unstyled Content (FOUC) -->
     <script>
-        if (
-            localStorage.getItem("theme") === "light" ||
-            (!("theme" in localStorage) &&
-                !window.matchMedia("(prefers-color-scheme: dark)").matches)
-        ) {
-            document.documentElement.classList.remove("dark");
+        if (localStorage.getItem('theme') === 'light' || (!('theme' in localStorage) && !window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.remove('dark');
         } else {
-            document.documentElement.classList.add("dark");
+            document.documentElement.classList.add('dark');
         }
-
+        
         // Setup initial language
-        const savedLang = localStorage.getItem("language") || "en";
+        const savedLang = localStorage.getItem('language') || 'en';
         document.documentElement.lang = savedLang;
-        document.documentElement.dir = savedLang === "ar" ? "rtl" : "ltr";
+        document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: "class",
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         md: {
-                            bg: "rgb(var(--color-bg) / <alpha-value>)",
-                            surface: "rgb(var(--color-surface) / <alpha-value>)",
-                            surfaceContainer:
-                                "rgb(var(--color-surface-container) / <alpha-value>)",
-                            surfaceContainerHigh:
-                                "rgb(var(--color-surface-container-high) / <alpha-value>)",
-                            primary: "rgb(var(--color-primary) / <alpha-value>)",
-                            onPrimary: "rgb(var(--color-on-primary) / <alpha-value>)",
-                            primaryContainer:
-                                "rgb(var(--color-primary-container) / <alpha-value>)",
-                            onPrimaryContainer:
-                                "rgb(var(--color-on-primary-container) / <alpha-value>)",
-                            onSurface: "rgb(var(--color-on-surface) / <alpha-value>)",
-                            onSurfaceVariant:
-                                "rgb(var(--color-on-surface-variant) / <alpha-value>)",
-                            outline: "rgb(var(--color-outline) / <alpha-value>)",
-                        },
+                            bg: 'rgb(var(--color-bg) / <alpha-value>)',
+                            surface: 'rgb(var(--color-surface) / <alpha-value>)',
+                            surfaceContainer: 'rgb(var(--color-surface-container) / <alpha-value>)',
+                            surfaceContainerHigh: 'rgb(var(--color-surface-container-high) / <alpha-value>)',
+                            primary: 'rgb(var(--color-primary) / <alpha-value>)',
+                            onPrimary: 'rgb(var(--color-on-primary) / <alpha-value>)',
+                            primaryContainer: 'rgb(var(--color-primary-container) / <alpha-value>)',
+                            onPrimaryContainer: 'rgb(var(--color-on-primary-container) / <alpha-value>)',
+                            onSurface: 'rgb(var(--color-on-surface) / <alpha-value>)',
+                            onSurfaceVariant: 'rgb(var(--color-on-surface-variant) / <alpha-value>)',
+                            outline: 'rgb(var(--color-outline) / <alpha-value>)'
+                        }
                     },
                     fontFamily: {
-                        sans: ["Roboto", "Tajawal", "system-ui", "sans-serif"],
-                        mono: ['"Fira Code"', '"Courier New"', "monospace"],
+                        sans: ['Roboto', 'Tajawal', 'system-ui', 'sans-serif'],
+                        mono: ['"Fira Code"', '"Courier New"', 'monospace']
                     },
                     transitionProperty: {
-                        theme:
-                            "background-color, border-color, color, fill, stroke, box-shadow, transform",
-                    },
-                },
-            },
-        };
+                        'theme': 'background-color, border-color, color, fill, stroke, box-shadow, transform',
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Roboto:wght@400;500;700&family=Tajawal:wght@400;500;700&display=swap");
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Roboto:wght@400;500;700&family=Tajawal:wght@400;500;700&display=swap');
 
         :root {
             /* Light Mode Palette */
@@ -98,10 +112,10 @@
             --color-surface: 255 255 255;
             --color-surface-container: 241 243 247;
             --color-surface-container-high: 232 234 239;
-            --color-primary: 67 56 202;
+            --color-primary: 67 56 202; 
             --color-on-primary: 255 255 255;
-            --color-primary-container: 224 231 255;
-            --color-on-primary-container: 49 46 129;
+            --color-primary-container: 224 231 255; 
+            --color-on-primary-container: 49 46 129; 
             --color-on-surface: 26 28 30;
             --color-on-surface-variant: 83 87 96;
             --color-outline: 140 146 157;
@@ -113,403 +127,331 @@
             --color-surface: 22 25 31;
             --color-surface-container: 30 34 43;
             --color-surface-container-high: 40 46 56;
-            --color-primary: 165 180 252;
+            --color-primary: 165 180 252; 
             --color-on-primary: 26 28 30;
-            --color-primary-container: 49 46 129;
-            --color-on-primary-container: 224 231 255;
+            --color-primary-container: 49 46 129; 
+            --color-on-primary-container: 224 231 255; 
             --color-on-surface: 226 228 233;
             --color-on-surface-variant: 156 163 175;
-            --color-outline: 75 85 99;
+            --color-outline: 115 125 140;
         }
 
         body {
             background-color: rgb(var(--color-bg));
             color: rgb(var(--color-on-surface));
-            transition:
-                background-color 0.4s ease,
-                color 0.4s ease;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         /* * PROFESSIONAL TERMINAL CANVAS */
-        .output-container {
+        .output-container, .fullscreen-output-container {
             flex-grow: 1;
             min-height: 400px;
             background-color: #050505 !important;
             color: #f1f5f9 !important;
-            direction: ltr !important;
-            /* ASCII/Braille is always LTR */
-            overflow: auto;
-            /* ALLOW SCROLLING for large images */
-            border-radius: 0 0 24px 24px;
-            box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.5);
+            direction: ltr !important; /* ASCII/Braille is always LTR */
+            overflow: auto; /* ALLOW SCROLLING for large images */
             position: relative;
             padding: 1.5rem;
-            text-align: center;
-            /* Center horizontally if smaller than container */
+            text-align: center; /* Center horizontally if smaller than container */
+        }
+        .output-container {
+            border-radius: 0 0 32px 32px;
+            box-shadow: inset 0 4px 20px rgba(0,0,0,0.5);
         }
 
         /* Scrollbar Styling */
-        .output-container::-webkit-scrollbar {
-            width: 12px;
-            height: 12px;
-        }
-
-        .output-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .output-container::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.2);
+        .output-container::-webkit-scrollbar, .fullscreen-output-container::-webkit-scrollbar { width: 12px; height: 12px; }
+        .output-container::-webkit-scrollbar-track, .fullscreen-output-container::-webkit-scrollbar-track { background: transparent; }
+        .output-container::-webkit-scrollbar-thumb, .fullscreen-output-container::-webkit-scrollbar-thumb {
+            background-color: rgba(255,255,255,0.2);
             border-radius: 12px;
             border: 3px solid #050505;
         }
-
-        .output-container::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(255, 255, 255, 0.4);
-        }
+        .output-container::-webkit-scrollbar-thumb:hover, .fullscreen-output-container::-webkit-scrollbar-thumb:hover { background-color: rgba(255,255,255,0.4); }
 
         .ascii-output {
-            font-family: "Fira Code", "Courier New", monospace;
+            font-family: 'Fira Code', 'Courier New', monospace;
             white-space: pre;
-            text-align: left;
-            /* Keep ASCII structure aligned left */
-            display: inline-block;
-            /* Wraps content perfectly */
-            line-height: 1 !important;
+            text-align: left; /* Keep ASCII structure aligned left */
+            display: inline-block; /* Wraps content perfectly */
+            line-height: 1 !important; 
             letter-spacing: 0;
             font-weight: 400;
-            font-size: 10px;
-            /* FIXED FONT SIZE: So the slider changes actual size */
+            font-size: 10px; /* FIXED FONT SIZE: So the slider changes actual size */
             opacity: 0;
             transition: opacity 0.4s ease;
         }
 
         /* MD3 Slider Styling with perfect RTL support */
-        input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(var(--slider-dir, to right),
-                    rgb(var(--color-primary)) var(--slider-percent, 50%),
-                    rgb(var(--color-surface-container-high)) var(--slider-percent, 50%));
-            border-radius: 6px;
-            outline: none;
-            cursor: pointer;
-            margin: 12px 0;
+        input[type=range] {
+            -webkit-appearance: none; appearance: none;
+            width: 100%; height: 4px;
+            background: linear-gradient(var(--slider-dir, to right), rgb(var(--color-primary)) var(--slider-percent, 50%), rgb(var(--color-surface-container-high)) var(--slider-percent, 50%));
+            border-radius: 4px; outline: none; cursor: pointer; margin: 16px 0;
         }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: rgb(var(--color-primary));
-            cursor: pointer;
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none;
+            height: 20px; width: 20px; border-radius: 50%;
+            background: rgb(var(--color-primary)); cursor: pointer;
             box-shadow: 0 0 0 0 rgba(var(--color-primary), 0.12);
-            transition:
-                box-shadow 0.2s,
-                transform 0.2s;
+            transition: box-shadow 0.2s, transform 0.2s;
         }
+        input[type=range]:hover::-webkit-slider-thumb { box-shadow: 0 0 0 10px rgb(var(--color-primary) / 0.12); }
+        input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); box-shadow: 0 0 0 16px rgb(var(--color-primary) / 0.24); }
 
-        input[type="range"]:hover::-webkit-slider-thumb {
-            box-shadow: 0 0 0 10px rgb(var(--color-primary) / 0.12);
+        /* Firefox Slider Support */
+        input[type=range]::-moz-range-thumb {
+            height: 20px; width: 20px; border-radius: 50%;
+            background: rgb(var(--color-primary)); cursor: pointer; border: none;
+            box-shadow: 0 0 0 0 rgba(var(--color-primary), 0.12);
+            transition: box-shadow 0.2s, transform 0.2s;
         }
+        input[type=range]:hover::-moz-range-thumb { box-shadow: 0 0 0 10px rgb(var(--color-primary) / 0.12); }
+        input[type=range]:active::-moz-range-thumb { transform: scale(1.15); box-shadow: 0 0 0 16px rgb(var(--color-primary) / 0.24); }
 
-        input[type="range"]:active::-webkit-slider-thumb {
-            transform: scale(1.15);
-            box-shadow: 0 0 0 16px rgb(var(--color-primary) / 0.24);
+        /* MD3 Native Switch Logic (CSS Only for perfect LTR/RTL sync) */
+        .md3-switch-track {
+            width: 52px; height: 32px;
+            background-color: rgb(var(--color-surface-container-high));
+            border-radius: 16px; position: relative;
+            transition: background-color 0.2s, border-color 0.2s;
+            border: 2px solid rgb(var(--color-outline)); box-sizing: border-box;
         }
+        .md3-switch-thumb {
+            position: absolute; top: 6px; inset-inline-start: 6px;
+            width: 16px; height: 16px;
+            background-color: rgb(var(--color-outline)); border-radius: 50%;
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        input:checked + .md3-switch-track {
+            background-color: rgb(var(--color-primary)); border-color: rgb(var(--color-primary));
+        }
+        input:checked + .md3-switch-track .md3-switch-thumb {
+            background-color: rgb(var(--color-on-primary));
+            width: 24px; height: 24px; top: 2px; inset-inline-start: 24px; /* 52-24-4 */
+        }
+        input:active + .md3-switch-track .md3-switch-thumb { width: 28px; }
+        input:active:checked + .md3-switch-track .md3-switch-thumb { inset-inline-start: 20px; }
 
         .spinner {
-            border: 3px solid rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255,255,255,0.1);
             border-radius: 50%;
             border-top: 3px solid rgb(var(--color-primary));
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             animation: spin 1s linear infinite;
         }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Dropdown transition */
         .dropdown-menu {
             transform-origin: top;
-            transition:
-                opacity 0.2s ease,
-                transform 0.2s ease;
+            transition: opacity 0.2s ease, transform 0.2s ease;
         }
+        .dropdown-menu.hidden { opacity: 0; transform: scaleY(0.95); pointer-events: none; }
+        .dropdown-menu.visible { opacity: 1; transform: scaleY(1); pointer-events: auto; }
 
-        .dropdown-menu.hidden {
-            opacity: 0;
-            transform: scaleY(0.95);
-            pointer-events: none;
+        /* Dialog Transitions */
+        .dialog-scrim {
+            opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
         }
-
-        .dropdown-menu.visible {
-            opacity: 1;
-            transform: scaleY(1);
-            pointer-events: auto;
+        .dialog-scrim.visible {
+            opacity: 1; pointer-events: auto;
+        }
+        .dialog-surface {
+            transform: scale(0.95); opacity: 0; transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .dialog-scrim.visible .dialog-surface {
+            transform: scale(1); opacity: 1;
         }
     </style>
 </head>
-
 <body class="min-h-screen flex flex-col p-4 md:p-6 lg:p-8 selection:bg-md-primary selection:text-md-onPrimary">
+
     <!-- Header -->
-    <header class="max-w-7xl w-full mx-auto mb-8 flex items-center justify-between relative z-50">
+    <header class="max-w-7xl w-full mx-auto mb-8 flex items-center justify-between relative z-40">
         <div class="flex items-center gap-3">
-            <div
-                class="w-10 h-10 bg-md-primaryContainer rounded-xl flex items-center justify-center text-md-onPrimaryContainer shadow-sm">
-                <!-- Restored Original Icon -->
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
+            <div class="w-10 h-10 bg-md-primaryContainer rounded-xl flex items-center justify-center text-md-onPrimaryContainer shadow-sm">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
             </div>
             <div>
-                <!-- Restored Original Branding -->
-                <h1 class="text-2xl font-bold text-md-onSurface tracking-tight">
-                    ImageToAscii
-                </h1>
-                <p class="text-md-onSurfaceVariant text-sm font-medium" data-i18n="subtitle">
-                    Convert images to ASCII & Braille
-                </p>
+                <h1 class="text-2xl font-bold text-md-onSurface tracking-tight">ImageToAscii</h1>
+                <p class="text-md-onSurfaceVariant text-sm font-medium" data-i18n="subtitle">Convert images to ASCII & Braille</p>
             </div>
         </div>
-
+        
         <div class="flex items-center gap-2 md:gap-3">
             <!-- Language Dropdown -->
             <div class="relative">
-                <button id="langBtn"
-                    class="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-md-surfaceContainerHigh text-md-onSurfaceVariant hover:text-md-onSurface transition-theme duration-300 font-medium text-sm border border-md-surfaceContainer">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-                    </svg>
+                <button id="langBtn" class="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-md-surfaceContainerHigh text-md-onSurfaceVariant hover:text-md-onSurface transition-theme duration-300 font-medium text-sm border border-md-surfaceContainer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
                     <span id="currentLangText">EN</span>
                 </button>
-
-                <div id="langDropdown"
-                    class="dropdown-menu hidden absolute top-full mt-2 ltr:right-0 rtl:left-0 w-36 bg-md-surface border border-md-surfaceContainer shadow-xl rounded-xl overflow-hidden z-50">
-                    <button onclick="setLanguage('en')"
-                        class="w-full text-start px-4 py-3 hover:bg-md-surfaceContainerHigh text-md-onSurface text-sm font-medium transition-colors">
-                        English
-                    </button>
-                    <button onclick="setLanguage('ar')"
-                        class="w-full text-start px-4 py-3 hover:bg-md-surfaceContainerHigh text-md-onSurface text-sm font-medium transition-colors font-sans">
-                        العربية
-                    </button>
+                
+                <div id="langDropdown" class="dropdown-menu hidden absolute top-full mt-2 ltr:right-0 rtl:left-0 w-36 bg-md-surface border border-md-surfaceContainer shadow-xl rounded-xl overflow-hidden z-50">
+                    <button onclick="setLanguage('en')" class="w-full text-start px-4 py-3 hover:bg-md-surfaceContainerHigh text-md-onSurface text-sm font-medium transition-colors">English</button>
+                    <button onclick="setLanguage('ar')" class="w-full text-start px-4 py-3 hover:bg-md-surfaceContainerHigh text-md-onSurface text-sm font-medium transition-colors font-sans">العربية</button>
                 </div>
             </div>
 
             <!-- Theme Toggle -->
-            <button id="themeToggleBtn"
-                class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-md-surfaceContainerHigh text-md-onSurfaceVariant hover:text-md-onSurface transition-theme duration-300 border border-md-surfaceContainer">
-                <svg id="iconSun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-                <svg id="iconMoon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
+            <button id="themeToggleBtn" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-md-surfaceContainerHigh text-md-onSurfaceVariant hover:text-md-onSurface transition-theme duration-300 border border-md-surfaceContainer">
+                <svg id="iconSun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                <svg id="iconMoon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
             </button>
         </div>
     </header>
 
     <!-- Main Grid -->
     <main class="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow">
-        <!-- Left Column: Controls -->
+        
+        <!-- Left Column: MD3 Compose Sidebar Style -->
         <div class="lg:col-span-4 flex flex-col gap-6">
-            <!-- Input Area -->
-            <div
-                class="bg-md-surface rounded-[24px] p-6 shadow-sm border border-md-surfaceContainer transition-theme duration-300">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-base font-bold text-md-onSurface" data-i18n="imageSource">
-                        Image Source
+            
+            <aside class="flex flex-col bg-md-surface rounded-[32px] shadow-sm border border-md-surfaceContainer overflow-hidden transition-theme duration-300">
+                
+                <!-- Section 1: Image Source (Header Container) -->
+                <div class="p-6 bg-md-surfaceContainer/30 border-b border-md-surfaceContainer">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-sm font-bold tracking-wide uppercase text-md-primary flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span data-i18n="imageSource">Image Source</span>
+                        </h2>
+                        <button id="resetBtn" class="flex items-center justify-center w-8 h-8 rounded-full hover:bg-md-surfaceContainerHigh text-md-onSurfaceVariant hover:text-md-primary transition-theme duration-300" title="Reset All">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Advanced Drop Zone / Source Preview Hybrid -->
+                    <div id="dropZone" class="w-full flex-grow flex flex-col items-center justify-center p-6 bg-md-surfaceContainer rounded-[20px] border border-dashed border-md-outline/40 cursor-pointer hover:bg-md-surfaceContainerHigh hover:border-md-primary transition-all text-center group relative min-h-[180px]">
+                        
+                        <!-- Default Upload Prompt -->
+                        <div id="dropZoneContent" class="flex flex-col items-center w-full transition-opacity duration-200">
+                            <div class="w-12 h-12 bg-md-surface group-hover:bg-md-primaryContainer rounded-full flex items-center justify-center mb-3 shadow-sm transition-colors">
+                                <svg class="w-6 h-6 text-md-onSurfaceVariant group-hover:text-md-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                            </div>
+                            <span class="text-sm font-bold text-md-onSurface" data-i18n="clickOrDrag">Click or drag image here</span>
+                            <span class="text-xs text-md-onSurfaceVariant mt-1" dir="ltr">JPG, PNG, SVG, WEBP • Paste</span>
+                        </div>
+
+                        <!-- Source Image Live Preview -->
+                        <div id="imagePreviewContainer" class="hidden absolute inset-0 w-full h-full p-2">
+                            <img id="sourceImagePreview" class="w-full h-full object-contain rounded-xl shadow-sm" src="" alt="Source Preview">
+                            <div class="absolute inset-2 bg-md-bg/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center rounded-xl transition-opacity backdrop-blur-[2px]">
+                                <svg class="w-6 h-6 text-md-onSurface mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                                <span class="text-md-onSurface font-bold text-sm" data-i18n="changeImage">Change Image</span>
+                            </div>
+                        </div>
+                        
+                        <input type="file" id="imageInput" class="hidden" accept="image/*,.svg,.jpg,.jpeg">
+                    </div>
+                </div>
+
+                <!-- Section 2: Engine Settings (Body Area) -->
+                <div class="p-6 flex flex-col gap-6 overflow-y-auto">
+                    <h2 class="text-sm font-bold tracking-wide uppercase text-md-primary flex items-center gap-2 mb-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                        <span data-i18n="tuning">Generation Settings</span>
                     </h2>
-                    <!-- Reset Button -->
-                    <button id="resetBtn"
-                        class="flex items-center justify-center w-8 h-8 rounded-full hover:bg-md-surfaceContainerHigh text-md-onSurfaceVariant hover:text-md-primary transition-theme duration-300"
-                        title="Reset All">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                    </button>
+                    
+                    <div class="space-y-6">
+                        <!-- Resolution Slider -->
+                        <div>
+                            <label class="flex justify-between text-xs font-bold tracking-wide text-md-onSurface mb-2 uppercase">
+                                <span data-i18n="resWidth">Size (Width)</span>
+                                <span id="widthDisplay" class="font-mono text-md-primary bg-md-primaryContainer text-md-onPrimaryContainer px-2 py-0.5 rounded-md text-[10px]">150 chars</span>
+                            </label>
+                            <input type="range" id="widthSlider" min="50" max="400" value="150" class="w-full mt-2">
+                        </div>
+
+                        <!-- Sharpening (Edge Enhancement) Slider -->
+                        <div>
+                            <label class="flex justify-between text-xs font-bold tracking-wide text-md-onSurface mb-2 uppercase">
+                                <span data-i18n="sharpening">Edge Sharpening</span>
+                                <span id="sharpenDisplay" class="font-mono text-md-primary bg-md-primaryContainer text-md-onPrimaryContainer px-2 py-0.5 rounded-md text-[10px]">50%</span>
+                            </label>
+                            <input type="range" id="sharpenSlider" min="0" max="100" value="50" class="w-full mt-2">
+                            <p class="text-[10px] text-md-onSurfaceVariant mt-1" data-i18n="sharpenDesc">Enhances outlines (Crucial for crisp lines)</p>
+                        </div>
+
+                        <!-- Gamma / Contrast Slider -->
+                        <div>
+                            <label class="flex justify-between text-xs font-bold tracking-wide text-md-onSurface mb-2 uppercase">
+                                <span data-i18n="contrast">Threshold (Gamma)</span>
+                                <span id="detailDisplay" class="font-mono text-md-primary bg-md-primaryContainer text-md-onPrimaryContainer px-2 py-0.5 rounded-md text-[10px]">50%</span>
+                            </label>
+                            <input type="range" id="detailSlider" min="1" max="100" value="50" class="w-full mt-2">
+                        </div>
+
+                        <!-- Display Zoom Slider -->
+                        <div>
+                            <label class="flex justify-between text-xs font-bold tracking-wide text-md-onSurface mb-2 uppercase">
+                                <span data-i18n="displayZoom">Display Zoom</span>
+                                <span id="zoomDisplay" class="font-mono text-md-primary bg-md-primaryContainer text-md-onPrimaryContainer px-2 py-0.5 rounded-md text-[10px]">10px</span>
+                            </label>
+                            <input type="range" id="zoomSlider" min="2" max="50" value="10" class="w-full mt-2">
+                        </div>
+
+                        <hr class="border-md-surfaceContainerHigh my-2">
+
+                        <!-- Toggles using MD3 Native Switch CSS -->
+                        <label class="flex items-center justify-between p-2 -mx-2 rounded-2xl hover:bg-md-surfaceContainer/50 transition-colors cursor-pointer group">
+                            <div class="flex flex-col pr-4">
+                                <span class="text-sm font-bold text-md-onSurface select-none" data-i18n="dithering">Smooth Dithering (Dots)</span>
+                                <span class="text-xs text-md-onSurfaceVariant select-none" data-i18n="ditherDesc">Spreads dots beautifully for gradients</span>
+                            </div>
+                            <div class="relative shrink-0">
+                                <input type="checkbox" id="ditherCheck" class="sr-only">
+                                <div class="md3-switch-track">
+                                    <div class="md3-switch-thumb"></div>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="flex items-center justify-between p-2 -mx-2 rounded-2xl hover:bg-md-surfaceContainer/50 transition-colors cursor-pointer group">
+                            <div class="flex flex-col pr-4">
+                                <span class="text-sm font-bold text-md-onSurface select-none" data-i18n="invertValues">Invert Matrix</span>
+                                <span class="text-xs text-md-onSurfaceVariant select-none" data-i18n="invertDesc">Inverts the logic of drawn dots</span>
+                            </div>
+                            <div class="relative shrink-0">
+                                <input type="checkbox" id="invertCheck" class="sr-only">
+                                <div class="md3-switch-track">
+                                    <div class="md3-switch-thumb"></div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
                 </div>
-
-                <div id="dropZone"
-                    class="w-full flex flex-col items-center justify-center px-6 py-8 bg-md-surfaceContainer rounded-[16px] border-2 border-dashed border-md-outline/40 cursor-pointer hover:bg-md-surfaceContainerHigh hover:border-md-primary transition-all text-center group">
-                    <div
-                        class="w-12 h-12 bg-md-surfaceContainerHigh group-hover:bg-md-primaryContainer rounded-full flex items-center justify-center mb-3 transition-colors">
-                        <svg class="w-6 h-6 text-md-onSurfaceVariant group-hover:text-md-primary transition-colors"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                        </svg>
-                    </div>
-                    <span class="text-sm font-bold text-md-onSurface" data-i18n="clickOrDrag">Click or drag image
-                        here</span>
-                    <span class="text-xs text-md-onSurfaceVariant mt-1" dir="ltr">JPG, PNG, WEBP • Paste (Ctrl+V)</span>
-                    <input type="file" id="imageInput" class="hidden" accept="image/*" />
-                </div>
-            </div>
-
-            <!-- Engine Settings -->
-            <div
-                class="bg-md-surface rounded-[24px] p-6 shadow-sm border border-md-surfaceContainer flex-grow transition-theme duration-300">
-                <h2 class="text-base font-bold mb-6 text-md-onSurface flex items-center gap-2">
-                    <svg class="w-5 h-5 text-md-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                    </svg>
-                    <span data-i18n="tuning">Generation Settings</span>
-                </h2>
-
-                <div class="space-y-6">
-                    <!-- Resolution Slider -->
-                    <div>
-                        <label
-                            class="flex justify-between text-xs font-bold tracking-wide text-md-onSurfaceVariant mb-2 uppercase">
-                            <span data-i18n="resWidth">Size (Width)</span>
-                            <span id="widthDisplay"
-                                class="font-mono text-md-primary bg-md-primaryContainer text-md-onPrimaryContainer px-2 py-0.5 rounded text-[10px]">150
-                                chars</span>
-                        </label>
-                        <input type="range" id="widthSlider" min="50" max="400" value="150" class="w-full mt-2" />
-                    </div>
-
-                    <!-- Sharpening (Edge Enhancement) Slider -->
-                    <div>
-                        <label
-                            class="flex justify-between text-xs font-bold tracking-wide text-md-onSurfaceVariant mb-2 uppercase">
-                            <span data-i18n="sharpening">Edge Sharpening</span>
-                            <span id="sharpenDisplay"
-                                class="font-mono text-md-primary bg-md-primaryContainer text-md-onPrimaryContainer px-2 py-0.5 rounded text-[10px]">50%</span>
-                        </label>
-                        <input type="range" id="sharpenSlider" min="0" max="100" value="50" class="w-full mt-2" />
-                        <p class="text-[10px] text-md-onSurfaceVariant mt-1" data-i18n="sharpenDesc">
-                            Enhances outlines (Crucial for crisp lines)
-                        </p>
-                    </div>
-
-                    <!-- Gamma / Contrast Slider -->
-                    <div>
-                        <label
-                            class="flex justify-between text-xs font-bold tracking-wide text-md-onSurfaceVariant mb-2 uppercase">
-                            <span data-i18n="contrast">Threshold (Gamma)</span>
-                            <span id="detailDisplay"
-                                class="font-mono text-md-primary bg-md-primaryContainer text-md-onPrimaryContainer px-2 py-0.5 rounded text-[10px]">50%</span>
-                        </label>
-                        <input type="range" id="detailSlider" min="1" max="100" value="50" class="w-full mt-2" />
-                    </div>
-
-                    <!-- NEW: Zoom / Display Size Slider -->
-                    <div>
-                        <label
-                            class="flex justify-between text-xs font-bold tracking-wide text-md-onSurfaceVariant mb-2 uppercase">
-                            <span data-i18n="displayZoom">Display Zoom</span>
-                            <span id="zoomDisplay"
-                                class="font-mono text-md-primary bg-md-primaryContainer text-md-onPrimaryContainer px-2 py-0.5 rounded text-[10px]">10px</span>
-                        </label>
-                        <input type="range" id="zoomSlider" min="2" max="50" value="10" class="w-full mt-2" />
-                    </div>
-
-                    <hr class="border-md-surfaceContainerHigh" />
-
-                    <!-- Dithering Toggle -->
-                    <label
-                        class="flex items-center gap-3 p-3 bg-md-surfaceContainer rounded-xl cursor-pointer hover:bg-md-surfaceContainerHigh transition-theme duration-200 border border-transparent hover:border-md-outline/20">
-                        <div class="relative flex items-center">
-                            <input type="checkbox" id="ditherCheck"
-                                class="peer appearance-none w-5 h-5 border-2 border-md-outline rounded-md checked:bg-md-primary checked:border-md-primary transition-all" />
-                            <svg class="absolute w-3.5 h-3.5 text-md-onPrimary rtl:right-0.5 ltr:left-0.5 top-0.5 opacity-0 peer-checked:opacity-100 pointer-events-none"
-                                fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-sm font-bold text-md-onSurface select-none" data-i18n="dithering">Smooth
-                                Dithering (Dots)</span>
-                            <span class="text-xs text-md-onSurfaceVariant select-none" data-i18n="ditherDesc">Spreads
-                                dots beautifully for gradients
-                                (Floyd-Steinberg)</span>
-                        </div>
-                    </label>
-
-                    <!-- Invert Toggle -->
-                    <label
-                        class="flex items-center gap-3 p-3 bg-md-surfaceContainer rounded-xl cursor-pointer hover:bg-md-surfaceContainerHigh transition-theme duration-200 border border-transparent hover:border-md-outline/20">
-                        <div class="relative flex items-center">
-                            <input type="checkbox" id="invertCheck"
-                                class="peer appearance-none w-5 h-5 border-2 border-md-outline rounded-md checked:bg-md-primary checked:border-md-primary transition-all" />
-                            <svg class="absolute w-3.5 h-3.5 text-md-onPrimary rtl:right-0.5 ltr:left-0.5 top-0.5 opacity-0 peer-checked:opacity-100 pointer-events-none"
-                                fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-sm font-bold text-md-onSurface select-none"
-                                data-i18n="invertValues">Invert Matrix</span>
-                            <span class="text-xs text-md-onSurfaceVariant select-none" data-i18n="invertDesc">Inverts
-                                the logic of drawn dots (Black vs White
-                                background)</span>
-                        </div>
-                    </label>
-                </div>
-            </div>
+            </aside>
         </div>
 
         <!-- Right Column: Black Terminal Output -->
         <div class="lg:col-span-8 flex flex-col">
-            <div
-                class="bg-md-surface rounded-[24px] shadow-sm border border-md-surfaceContainer flex flex-col h-full overflow-hidden relative transition-theme duration-300">
+            <div class="bg-md-surface rounded-[32px] shadow-sm border border-md-surfaceContainer flex flex-col h-full overflow-hidden relative transition-theme duration-300">
+                
                 <!-- Output Header -->
-                <div
-                    class="px-6 py-4 border-b border-md-surfaceContainer flex items-center justify-between bg-md-surface z-10">
+                <div class="px-6 py-4 border-b border-md-surfaceContainer flex items-center justify-between bg-md-surface z-10 flex-wrap gap-4">
                     <h2 class="text-base font-bold text-md-onSurface flex items-center gap-2">
-                        <svg class="w-5 h-5 text-md-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                        </svg>
+                        <svg class="w-5 h-5 text-md-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
                         <span data-i18n="outputCanvas">Output Canvas</span>
                     </h2>
-
+                    
                     <div class="flex items-center gap-2">
-                        <button id="copyBtn" disabled
-                            class="flex items-center gap-2 px-4 py-2 bg-md-surfaceContainer hover:bg-md-surfaceContainerHigh text-md-onSurface font-bold text-sm rounded-full disabled:opacity-40 disabled:cursor-not-allowed transition-theme duration-200">
-                            <svg id="copyIcon" class="w-4 h-4 text-md-onSurfaceVariant" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                            </svg>
-                            <svg id="copySuccessIcon" class="w-4 h-4 text-emerald-500 hidden" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                    d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span id="copyText" data-i18n="copyText">Copy text</span>
+                        <!-- ADVANCED PREVIEW BUTTON -->
+                        <button id="openPreviewDialogBtn" disabled class="flex items-center gap-2 px-4 py-2 bg-md-primaryContainer hover:bg-md-primary hover:text-md-onPrimary text-md-onPrimaryContainer font-bold text-sm rounded-full disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            <span data-i18n="advancedPreview">Preview</span>
                         </button>
 
-                        <button id="downloadBtn" disabled
-                            class="flex items-center gap-2 px-4 py-2 bg-md-primary text-md-onPrimary font-bold text-sm rounded-full hover:bg-opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            <span dir="ltr">Save .txt</span>
+                        <button id="copyBtn" disabled class="flex items-center gap-2 px-4 py-2 bg-md-surfaceContainer hover:bg-md-surfaceContainerHigh text-md-onSurface font-bold text-sm rounded-full disabled:opacity-40 disabled:cursor-not-allowed transition-theme duration-200">
+                            <svg id="copyIcon" class="w-4 h-4 text-md-onSurfaceVariant" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <svg id="copySuccessIcon" class="w-4 h-4 text-emerald-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="hidden sm:inline" id="copyText" data-i18n="copyText">Copy</span>
+                        </button>
+                        
+                        <button id="downloadBtn" disabled class="flex items-center gap-2 px-4 py-2 bg-md-primary text-md-onPrimary font-bold text-sm rounded-full hover:bg-opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            <span class="hidden sm:inline" dir="ltr">Save</span>
                         </button>
                     </div>
                 </div>
@@ -517,23 +459,15 @@
                 <!-- True Black Canvas Area -->
                 <div class="output-container" id="scrollContainer">
                     <!-- Loading Overlay -->
-                    <div id="loadingOverlay"
-                        class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-20 hidden backdrop-blur-sm transition-all duration-300">
+                    <div id="loadingOverlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-20 hidden backdrop-blur-sm transition-all duration-300">
                         <div class="spinner mb-4"></div>
-                        <span class="text-sm font-bold text-white tracking-widest uppercase"
-                            data-i18n="rendering">Processing...</span>
+                        <span class="text-sm font-bold text-white tracking-widest uppercase" data-i18n="rendering">Processing...</span>
                     </div>
 
                     <!-- Placeholder -->
-                    <div id="placeholderText"
-                        class="absolute inset-0 flex flex-col items-center justify-center text-white/40 select-none">
-                        <svg class="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <p class="text-sm font-bold uppercase tracking-wider" data-i18n="awaitingInput">
-                            Awaiting Image
-                        </p>
+                    <div id="placeholderText" class="absolute inset-0 flex flex-col items-center justify-center text-white/40 select-none">
+                        <svg class="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <p class="text-sm font-bold uppercase tracking-wider" data-i18n="awaitingInput">Awaiting Image</p>
                     </div>
 
                     <!-- The Output -->
@@ -543,12 +477,118 @@
         </div>
     </main>
 
+    <!-- ========================================== -->
+    <!-- MD3 PREVIEW DIALOG -->
+    <!-- ========================================== -->
+    <div id="previewDialogScrim" class="dialog-scrim fixed inset-0 bg-black/60 z-[100] flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="dialog-surface bg-md-surface border border-md-surfaceContainerHigh rounded-[28px] w-full max-w-lg p-6 md:p-8 shadow-2xl flex flex-col gap-6">
+            
+            <!-- Dialog Header -->
+            <div>
+                <h3 class="text-2xl font-bold text-md-onSurface" data-i18n="previewDialogTitle">Preview Experience</h3>
+                <p class="text-sm text-md-onSurfaceVariant mt-1" data-i18n="previewDialogDesc">Choose how you want to view the generated ASCII art.</p>
+            </div>
+
+            <!-- Dialog Options -->
+            <div class="flex flex-col gap-3">
+                <!-- Option C: Fullscreen Overlay -->
+                <button onclick="openFullscreenOverlay()" class="flex items-start gap-4 p-4 rounded-[16px] border border-md-surfaceContainer hover:bg-md-surfaceContainer hover:border-md-primary/50 transition-colors text-start group">
+                    <div class="w-10 h-10 rounded-full bg-md-surfaceContainerHigh group-hover:bg-md-primaryContainer flex items-center justify-center shrink-0 transition-colors">
+                        <svg class="w-5 h-5 text-md-onSurfaceVariant group-hover:text-md-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-md-onSurface font-bold text-base" data-i18n="previewOverlay">Fullscreen Overlay</span>
+                        <span class="text-md-onSurfaceVariant text-xs mt-1" data-i18n="previewOverlayDesc">Immersive in-app preview. Updates in real-time.</span>
+                    </div>
+                </button>
+
+                <!-- Option B: New Tab -->
+                <button onclick="openExternalPreview('tab')" class="flex items-start gap-4 p-4 rounded-[16px] border border-md-surfaceContainer hover:bg-md-surfaceContainer hover:border-md-primary/50 transition-colors text-start group">
+                    <div class="w-10 h-10 rounded-full bg-md-surfaceContainerHigh group-hover:bg-md-primaryContainer flex items-center justify-center shrink-0 transition-colors">
+                        <svg class="w-5 h-5 text-md-onSurfaceVariant group-hover:text-md-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-md-onSurface font-bold text-base" data-i18n="previewTab">Open in New Tab</span>
+                        <span class="text-md-onSurfaceVariant text-xs mt-1" data-i18n="previewTabDesc">Clean reading layout. Live synchronized with the editor.</span>
+                    </div>
+                </button>
+
+                <!-- Option A: New Window (Side-by-side workflow) -->
+                <button onclick="openExternalPreview('window')" class="flex items-start gap-4 p-4 rounded-[16px] border border-md-surfaceContainer hover:bg-md-surfaceContainer hover:border-md-primary/50 transition-colors text-start group">
+                    <div class="w-10 h-10 rounded-full bg-md-surfaceContainerHigh group-hover:bg-md-primaryContainer flex items-center justify-center shrink-0 transition-colors">
+                        <svg class="w-5 h-5 text-md-onSurfaceVariant group-hover:text-md-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-md-onSurface font-bold text-base" data-i18n="previewWindow">Open in New Window</span>
+                        <span class="text-md-primary text-xs mt-1 font-medium bg-md-primaryContainer w-fit px-2 py-0.5 rounded" data-i18n="previewWindowDesc">Live Mirror: Split screen and see real-time updates.</span>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Dialog Actions -->
+            <div class="flex justify-end pt-2">
+                <button onclick="closePreviewDialog()" class="px-6 py-2.5 rounded-full hover:bg-md-surfaceContainerHigh text-md-onSurface font-medium text-sm transition-colors">
+                    <span data-i18n="close">Close</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MD3 SAVE DIALOG -->
+    <!-- ========================================== -->
+    <div id="saveDialogScrim" class="dialog-scrim fixed inset-0 bg-black/60 z-[110] flex items-center justify-center backdrop-blur-sm p-4 hidden">
+        <div class="dialog-surface bg-md-surface border border-md-surfaceContainerHigh rounded-[28px] w-full max-w-sm p-6 md:p-8 shadow-2xl flex flex-col gap-6">
+            
+            <!-- Dialog Header -->
+            <div>
+                <h3 class="text-2xl font-bold text-md-onSurface" data-i18n="saveTitle">Save ASCII Art</h3>
+                <p class="text-sm text-md-onSurfaceVariant mt-1" data-i18n="saveDesc">Choose a filename for your export.</p>
+            </div>
+
+            <!-- Input Area -->
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2 bg-md-surfaceContainer p-3 rounded-[16px] border border-transparent focus-within:border-md-primary/60 transition-colors shadow-inner">
+                    <input type="text" id="filenameInput" class="flex-grow bg-transparent border-none outline-none text-md-onSurface placeholder:text-md-onSurfaceVariant/50 font-mono text-sm" placeholder="art" data-i18n-placeholder="filenamePlaceholder">
+                    <span class="text-md-onSurfaceVariant font-mono text-sm font-bold select-none pr-1">.txt</span>
+                </div>
+                <span id="filenameError" class="text-xs text-red-500 font-medium hidden px-1 flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <span data-i18n="invalidFilename">Invalid characters in filename.</span>
+                </span>
+            </div>
+
+            <!-- Dialog Actions -->
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeSaveDialog()" class="px-5 py-2.5 rounded-full hover:bg-md-surfaceContainerHigh text-md-onSurface font-medium text-sm transition-colors">
+                    <span data-i18n="cancel">Cancel</span>
+                </button>
+                <button onclick="confirmSave()" class="px-6 py-2.5 rounded-full bg-md-primary hover:bg-opacity-90 text-md-onPrimary font-bold text-sm transition-colors shadow-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    <span data-i18n="saveBtn">Save</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- FULLSCREEN OVERLAY PREVIEW -->
+    <!-- ========================================== -->
+    <div id="fullscreenOverlayView" class="fixed inset-0 bg-[#050505] z-[200] hidden flex-col">
+        <div class="flex justify-between items-center p-4 bg-black/50 border-b border-white/10 shadow-md">
+            <span class="text-white/80 font-bold text-sm tracking-widest uppercase">Immersive Preview (Live Sync)</span>
+            <button onclick="closeFullscreenOverlay()" class="p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors" title="Close Preview (ESC)">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="fullscreen-output-container flex-grow" id="fullscreenScrollContainer">
+            <div id="fullscreenAsciiOutput" class="ascii-output opacity-100"></div>
+        </div>
+    </div>
+
+
     <!-- Hidden calculation element to measure exact font aspect ratio -->
-    <span id="fontMeasurer" class="absolute opacity-0 pointer-events-none whitespace-pre" style="
-        font-family: &quot;Fira Code&quot;, &quot;Courier New&quot;, monospace;
-        font-size: 100px;
-        line-height: 1;
-      ">M</span>
+    <span id="fontMeasurer" class="absolute opacity-0 pointer-events-none whitespace-pre" style="font-family: 'Fira Code', 'Courier New', monospace; font-size: 100px; line-height: 1;">M</span>
 
     <script>
         // ==========================================
@@ -560,29 +600,45 @@
                 tuning: "Generation Settings",
                 imageSource: "Image Source",
                 clickOrDrag: "Click or drag image here",
+                changeImage: "Change Image",
                 resWidth: "Size (Width)",
                 sharpening: "Edge Sharpening",
                 sharpenDesc: "Enhances outlines (Crucial for crisp lines)",
                 contrast: "Threshold (Gamma)",
                 displayZoom: "Display Zoom (Font Size)",
                 invertValues: "Invert Matrix",
-                invertDesc:
-                    "Inverts the logic of drawn dots (Black vs White background)",
+                invertDesc: "Inverts the logic of drawn dots",
                 dithering: "Smooth Dithering (Dots)",
-                ditherDesc:
-                    "Spreads dots beautifully for gradients (Floyd-Steinberg)",
+                ditherDesc: "Spreads dots beautifully for gradients",
                 outputCanvas: "Output Canvas",
-                copyText: "Copy text",
+                advancedPreview: "Preview",
+                previewDialogTitle: "Preview Experience",
+                previewDialogDesc: "Choose how you want to view the generated ASCII art.",
+                previewOverlay: "Fullscreen Overlay",
+                previewOverlayDesc: "Immersive in-app preview. Updates in real-time.",
+                previewTab: "Open in New Tab",
+                previewTabDesc: "Clean reading layout. Live synchronized with the editor.",
+                previewWindow: "Open in New Window",
+                previewWindowDesc: "Live Mirror: Split screen and see real-time updates.",
+                close: "Close",
+                saveTitle: "Save ASCII Art",
+                saveDesc: "Choose a filename for your export.",
+                filenamePlaceholder: "Enter filename",
+                invalidFilename: "Invalid characters in filename: \\ / : * ? \" < > |",
+                cancel: "Cancel",
+                saveBtn: "Save",
+                copyText: "Copy",
                 copied: "Copied!",
                 rendering: "Processing...",
                 awaitingInput: "Awaiting Image",
-                errorImg: "Please provide a valid image file.",
+                errorImg: "Please provide a valid image file."
             },
             ar: {
                 subtitle: "تحويل الصور إلى نصوص وبرايل",
                 tuning: "إعدادات التحويل",
                 imageSource: "مصدر الصورة",
                 clickOrDrag: "انقر أو اسحب الصورة هنا",
+                changeImage: "تغيير الصورة",
                 resWidth: "الحجم (العرض)",
                 sharpening: "الحدة وإبراز الحواف",
                 sharpenDesc: "يقوي الخطوط (مهم جداً لجعل التفاصيل حادة ودقيقة)",
@@ -593,12 +649,28 @@
                 dithering: "تنعيم التفاصيل (Dithering)",
                 ditherDesc: "ينشر النقاط بذكاء لرسم التدرجات والظلال المخفية",
                 outputCanvas: "شاشة العرض",
-                copyText: "نسخ النص",
+                advancedPreview: "معاينة",
+                previewDialogTitle: "تجربة المعاينة",
+                previewDialogDesc: "اختر كيف تريد عرض فن ASCII المولد.",
+                previewOverlay: "شاشة كاملة",
+                previewOverlayDesc: "معاينة غامرة داخل التطبيق. تُحدث في الوقت الفعلي.",
+                previewTab: "فتح في علامة تبويب جديدة",
+                previewTabDesc: "واجهة قراءة نظيفة. متزامنة مباشرة مع المحرر.",
+                previewWindow: "فتح في نافذة جديدة",
+                previewWindowDesc: "مرآة حية: قسّم الشاشة للمقارنة والتحديث في الوقت الفعلي.",
+                close: "إغلاق",
+                saveTitle: "حفظ كملف نصي",
+                saveDesc: "اختر اسماً لملفك قبل الحفظ.",
+                filenamePlaceholder: "أدخل اسم الملف",
+                invalidFilename: "يحتوي الاسم على رموز غير صالحة.",
+                cancel: "إلغاء",
+                saveBtn: "حفظ",
+                copyText: "نسخ",
                 copied: "تم النسخ!",
                 rendering: "جاري المعالجة...",
                 awaitingInput: "بانتظار إدخال صورة",
-                errorImg: "الرجاء إدخال ملف صورة صالح.",
-            },
+                errorImg: "الرجاء إدخال ملف صورة صالح."
+            }
         };
 
         let currentLang = document.documentElement.lang;
@@ -606,99 +678,103 @@
         function setLanguage(lang) {
             currentLang = lang;
             document.documentElement.lang = lang;
-            document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-            localStorage.setItem("language", lang);
-
-            document.getElementById("currentLangText").textContent =
-                lang === "ar" ? "AR" : "EN";
-
-            document.querySelectorAll("[data-i18n]").forEach((el) => {
-                const key = el.getAttribute("data-i18n");
-                if (translations[lang][key]) el.textContent = translations[lang][key];
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            localStorage.setItem('language', lang);
+            
+            document.getElementById('currentLangText').textContent = lang === 'ar' ? 'AR' : 'EN';
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) el.textContent = translations[lang][key];
             });
 
-            // Update sliders direction
-            updateSliderFill(document.getElementById("widthSlider"));
-            updateSliderFill(document.getElementById("detailSlider"));
-            updateSliderFill(document.getElementById("sharpenSlider"));
-            updateSliderFill(document.getElementById("zoomSlider"));
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if(translations[lang][key]) el.placeholder = translations[lang][key];
+            });
 
-            document.getElementById("langDropdown").classList.remove("visible");
-            document.getElementById("langDropdown").classList.add("hidden");
+            updateSliderFill(document.getElementById('widthSlider'));
+            updateSliderFill(document.getElementById('detailSlider'));
+            updateSliderFill(document.getElementById('sharpenSlider'));
+            updateSliderFill(document.getElementById('zoomSlider'));
+
+            document.getElementById('langDropdown').classList.remove('visible');
+            document.getElementById('langDropdown').classList.add('hidden');
         }
 
         setLanguage(currentLang);
 
-        document.getElementById("langBtn").addEventListener("click", (e) => {
+        document.getElementById('langBtn').addEventListener('click', (e) => {
             e.stopPropagation();
-            const dd = document.getElementById("langDropdown");
-            if (dd.classList.contains("hidden")) {
-                dd.classList.remove("hidden");
-                dd.classList.add("visible");
+            const dd = document.getElementById('langDropdown');
+            if(dd.classList.contains('hidden')) {
+                dd.classList.remove('hidden'); dd.classList.add('visible');
             } else {
-                dd.classList.remove("visible");
-                dd.classList.add("hidden");
+                dd.classList.remove('visible'); dd.classList.add('hidden');
             }
         });
-        document.addEventListener("click", () => {
-            const dd = document.getElementById("langDropdown");
-            dd.classList.remove("visible");
-            dd.classList.add("hidden");
+        document.addEventListener('click', () => {
+            const dd = document.getElementById('langDropdown');
+            dd.classList.remove('visible'); dd.classList.add('hidden');
         });
 
         // ==========================================
         // THEME MANAGEMENT
         // ==========================================
-        const themeToggleBtn = document.getElementById("themeToggleBtn");
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
         const htmlElement = document.documentElement;
 
         function applyTheme(isDark) {
             if (isDark) {
-                htmlElement.classList.add("dark");
-                localStorage.setItem("theme", "dark");
+                htmlElement.classList.add('dark'); localStorage.setItem('theme', 'dark');
             } else {
-                htmlElement.classList.remove("dark");
-                localStorage.setItem("theme", "light");
+                htmlElement.classList.remove('dark'); localStorage.setItem('theme', 'light');
             }
         }
-        themeToggleBtn.addEventListener("click", () =>
-            applyTheme(!htmlElement.classList.contains("dark")),
-        );
+        themeToggleBtn.addEventListener('click', () => applyTheme(!htmlElement.classList.contains('dark')));
 
         // ==========================================
         // DOM ELEMENTS & STATE
         // ==========================================
-        const dropZone = document.getElementById("dropZone");
-        const imageInput = document.getElementById("imageInput");
+        const dropZone = document.getElementById('dropZone');
+        const dropZoneContent = document.getElementById('dropZoneContent');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const sourceImagePreview = document.getElementById('sourceImagePreview');
+        const imageInput = document.getElementById('imageInput');
+        
+        const widthSlider = document.getElementById('widthSlider');
+        const widthDisplay = document.getElementById('widthDisplay');
+        const detailSlider = document.getElementById('detailSlider');
+        const detailDisplay = document.getElementById('detailDisplay');
+        const sharpenSlider = document.getElementById('sharpenSlider');
+        const sharpenDisplay = document.getElementById('sharpenDisplay');
+        const zoomSlider = document.getElementById('zoomSlider');
+        const zoomDisplay = document.getElementById('zoomDisplay');
+        
+        const invertCheck = document.getElementById('invertCheck');
+        const ditherCheck = document.getElementById('ditherCheck');
+        
+        const asciiOutput = document.getElementById('asciiOutput');
+        const placeholderText = document.getElementById('placeholderText');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const fontMeasurer = document.getElementById('fontMeasurer');
+        
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const openPreviewDialogBtn = document.getElementById('openPreviewDialogBtn');
 
-        const widthSlider = document.getElementById("widthSlider");
-        const widthDisplay = document.getElementById("widthDisplay");
-        const detailSlider = document.getElementById("detailSlider");
-        const detailDisplay = document.getElementById("detailDisplay");
-        const sharpenSlider = document.getElementById("sharpenSlider");
-        const sharpenDisplay = document.getElementById("sharpenDisplay");
-        const zoomSlider = document.getElementById("zoomSlider");
-        const zoomDisplay = document.getElementById("zoomDisplay");
-
-        const invertCheck = document.getElementById("invertCheck");
-        const ditherCheck = document.getElementById("ditherCheck");
-
-        const asciiOutput = document.getElementById("asciiOutput");
-        const placeholderText = document.getElementById("placeholderText");
-        const loadingOverlay = document.getElementById("loadingOverlay");
-        const scrollContainer = document.getElementById("scrollContainer");
-        const fontMeasurer = document.getElementById("fontMeasurer");
-
-        const copyBtn = document.getElementById("copyBtn");
-        const downloadBtn = document.getElementById("downloadBtn");
-        const resetBtn = document.getElementById("resetBtn");
+        // Advanced Dialog State
+        const previewDialogScrim = document.getElementById('previewDialogScrim');
+        const fullscreenOverlayView = document.getElementById('fullscreenOverlayView');
+        const fullscreenAsciiOutput = document.getElementById('fullscreenAsciiOutput');
 
         let currentImage = null;
         let processTimeout = null;
         let exactFontRatio = 0.5;
 
         // Calculate actual font ratio
-        window.addEventListener("load", () => {
+        window.addEventListener('load', () => {
             const rect = fontMeasurer.getBoundingClientRect();
             if (rect.height > 0 && rect.width > 0) {
                 exactFontRatio = rect.width / rect.height;
@@ -708,44 +784,196 @@
         });
 
         // ==========================================
-        // INPUT HANDLING
+        // LIVE SYNCHRONIZATION SYSTEM
         // ==========================================
-        dropZone.addEventListener("click", () => imageInput.click());
-        imageInput.addEventListener("change", (e) => handleFiles(e.target.files));
+        const liveSyncChannel = new BroadcastChannel('img2ascii_live_sync');
 
-        ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
-            dropZone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                e.stopPropagation();
+        // Listen for requests from newly opened tabs/windows to push initial state immediately
+        liveSyncChannel.onmessage = (e) => {
+            if (e.data.type === 'request_sync' && asciiOutput.textContent) {
+                broadcastLiveUpdate();
+            }
+        };
+
+        function broadcastLiveUpdate() {
+            liveSyncChannel.postMessage({
+                type: 'sync_update',
+                text: asciiOutput.textContent,
+                fontSize: asciiOutput.style.fontSize || '10px'
             });
+        }
+
+
+        // ==========================================
+        // ADVANCED PREVIEW DIALOG LOGIC
+        // ==========================================
+        openPreviewDialogBtn.addEventListener('click', () => {
+            previewDialogScrim.classList.remove('hidden');
+            // Trigger reflow to run transition
+            void previewDialogScrim.offsetWidth;
+            previewDialogScrim.classList.add('visible');
         });
 
-        ["dragenter", "dragover"].forEach((eventName) =>
-            dropZone.addEventListener(eventName, () =>
-                dropZone.classList.add(
-                    "border-md-primary",
-                    "bg-md-primaryContainer/10",
-                ),
-            ),
-        );
-        ["dragleave", "drop"].forEach((eventName) =>
-            dropZone.addEventListener(eventName, () =>
-                dropZone.classList.remove(
-                    "border-md-primary",
-                    "bg-md-primaryContainer/10",
-                ),
-            ),
-        );
+        function closePreviewDialog() {
+            previewDialogScrim.classList.remove('visible');
+            setTimeout(() => previewDialogScrim.classList.add('hidden'), 200);
+        }
 
-        dropZone.addEventListener("drop", (e) =>
-            handleFiles(e.dataTransfer.files),
-        );
+        // ==========================================
+        // SAVE DIALOG LOGIC
+        // ==========================================
+        const saveDialogScrim = document.getElementById('saveDialogScrim');
+        const filenameInput = document.getElementById('filenameInput');
+        const filenameError = document.getElementById('filenameError');
 
-        window.addEventListener("paste", (e) => {
+        function openSaveDialog() {
+            if (!asciiOutput.textContent) return;
+            filenameInput.value = `ascii-art-${Math.floor(Date.now() / 1000)}`;
+            filenameError.classList.add('hidden');
+            
+            saveDialogScrim.classList.remove('hidden');
+            void saveDialogScrim.offsetWidth;
+            saveDialogScrim.classList.add('visible');
+            
+            filenameInput.focus();
+            filenameInput.select();
+        }
+
+        function closeSaveDialog() {
+            saveDialogScrim.classList.remove('visible');
+            setTimeout(() => saveDialogScrim.classList.add('hidden'), 200);
+        }
+
+        function confirmSave() {
+            let filename = filenameInput.value.trim();
+            if (!filename) filename = `ascii-art-${Math.floor(Date.now() / 1000)}`;
+
+            // Robust validation preventing OS illegal characters
+            const illegalChars = /[\\/:*?"<>|]/;
+            if (illegalChars.test(filename)) {
+                filenameError.classList.remove('hidden');
+                filenameInput.classList.add('text-red-500');
+                setTimeout(() => filenameInput.classList.remove('text-red-500'), 500);
+                return;
+            }
+
+            const blob = new Blob([asciiOutput.textContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; 
+            a.download = `${filename}.txt`;
+            document.body.appendChild(a); 
+            a.click(); 
+            document.body.removeChild(a); 
+            URL.revokeObjectURL(url);
+            
+            closeSaveDialog();
+        }
+
+        filenameInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') confirmSave();
+            if (e.key === 'Escape') closeSaveDialog();
+        });
+
+        function openFullscreenOverlay() {
+            closePreviewDialog();
+            const fontSize = asciiOutput.style.fontSize || '10px';
+            fullscreenAsciiOutput.textContent = asciiOutput.textContent;
+            fullscreenAsciiOutput.style.fontSize = fontSize;
+            fullscreenOverlayView.classList.remove('hidden');
+            fullscreenOverlayView.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // prevent bg scroll
+        }
+
+        function closeFullscreenOverlay() {
+            fullscreenOverlayView.classList.add('hidden');
+            fullscreenOverlayView.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !fullscreenOverlayView.classList.contains('hidden')) {
+                closeFullscreenOverlay();
+            }
+        });
+
+        function openExternalPreview(mode) {
+            const text = asciiOutput.textContent;
+            const fontSize = asciiOutput.style.fontSize || '10px';
+            if(!text) return;
+            
+            closePreviewDialog();
+
+            const html = `<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>img2ascii - Live Synchronized Preview</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+        body { margin: 0; padding: 2rem; background: #050505; color: #f1f5f9; display: flex; justify-content: center; min-height: 100vh; overflow: auto; }
+        pre { font-family: 'Fira Code', 'Courier New', monospace; font-size: ${fontSize}; line-height: 1; letter-spacing: 0; white-space: pre; text-align: left; transition: font-size 0.2s ease; }
+        ::-webkit-scrollbar { width: 12px; height: 12px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.2); border-radius: 12px; border: 3px solid #050505; }
+    </style>
+</head>
+<body>
+    <pre id="liveAsciiOutput">${text}</pre>
+    <script>
+        const pre = document.getElementById('liveAsciiOutput');
+        const syncChannel = new BroadcastChannel('img2ascii_live_sync');
+        
+        syncChannel.onmessage = (e) => {
+            if (e.data.type === 'sync_update') {
+                pre.textContent = e.data.text;
+                pre.style.fontSize = e.data.fontSize;
+            }
+        };
+        
+        // Immediately request state across channel in case of minor rendering delays
+        syncChannel.postMessage({ type: 'request_sync' });
+    <\/script>
+</body>
+</html>`;
+
+            let newWin;
+            if(mode === 'tab') {
+                newWin = window.open('', '_blank');
+            } else {
+                // New Window optimized for split screen
+                newWin = window.open('', 'ASCIIPreview', 'width=1000,height=800,menubar=no,toolbar=no,location=no,status=no');
+            }
+            
+            if(newWin) {
+                newWin.document.open();
+                newWin.document.write(html);
+                newWin.document.close();
+            } else {
+                alert('Popup blocked. Please allow popups for this site.');
+            }
+        }
+
+        // ==========================================
+        // INPUT HANDLING & SOURCE IMAGE PREVIEW
+        // ==========================================
+        dropZone.addEventListener('click', () => imageInput.click());
+        imageInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); });
+        });
+        
+        ['dragenter', 'dragover'].forEach(eventName => dropZone.addEventListener(eventName, () => dropZone.classList.add('border-md-primary', 'bg-md-primaryContainer/10')));
+        ['dragleave', 'drop'].forEach(eventName => dropZone.addEventListener(eventName, () => dropZone.classList.remove('border-md-primary', 'bg-md-primaryContainer/10')));
+        
+        dropZone.addEventListener('drop', (e) => handleFiles(e.dataTransfer.files));
+
+        window.addEventListener('paste', (e) => {
             const items = (e.clipboardData || e.originalEvent.clipboardData).items;
             for (let index in items) {
                 const item = items[index];
-                if (item.kind === "file" && item.type.includes("image/")) {
+                if (item.kind === 'file' && item.type.includes('image/')) {
                     handleFiles([item.getAsFile()]);
                     break;
                 }
@@ -755,19 +983,28 @@
         function handleFiles(files) {
             if (!files || files.length === 0) return;
             const file = files[0];
-            if (!file.type.startsWith("image/")) {
-                alert(translations[currentLang].errorImg);
-                return;
-            }
+            if (!file.type.startsWith('image/')) { alert(translations[currentLang].errorImg); return; }
 
             const reader = new FileReader();
             reader.onload = (event) => {
+                const srcData = event.target.result;
                 const img = new Image();
-                img.onload = () => {
-                    currentImage = img;
-                    queueProcessing();
+                img.onload = () => { 
+                    // SVGs without a viewBox might load with 0 width/height. Set a default if necessary.
+                    if (img.width === 0 || img.height === 0) {
+                        img.width = 500;
+                        img.height = 500;
+                    }
+                    currentImage = img; 
+                    
+                    // Show Image Preview in UI
+                    sourceImagePreview.src = srcData;
+                    dropZoneContent.classList.add('hidden');
+                    imagePreviewContainer.classList.remove('hidden');
+
+                    queueProcessing(); 
                 };
-                img.src = event.target.result;
+                img.src = srcData;
             };
             reader.readAsDataURL(file);
         }
@@ -781,62 +1018,57 @@
             const val = slider.value;
             const percent = ((val - min) / (max - min)) * 100;
             const dir = document.documentElement.dir;
-            slider.style.setProperty("--slider-percent", `${percent}%`);
-            slider.style.setProperty(
-                "--slider-dir",
-                dir === "rtl" ? "to left" : "to right",
-            );
+            slider.style.setProperty('--slider-percent', `${percent}%`);
+            slider.style.setProperty('--slider-dir', dir === 'rtl' ? 'to left' : 'to right');
         }
 
-        [widthSlider, detailSlider, sharpenSlider, zoomSlider].forEach(
-            (slider) => {
+        [widthSlider, detailSlider, sharpenSlider, zoomSlider].forEach(slider => {
+            updateSliderFill(slider);
+            slider.addEventListener('input', () => {
+                if(slider === widthSlider) widthDisplay.textContent = slider.value + ' chars';
+                if(slider === detailSlider) detailDisplay.textContent = slider.value + '%';
+                if(slider === sharpenSlider) sharpenDisplay.textContent = slider.value + '%';
+                if(slider === zoomSlider) {
+                    zoomDisplay.textContent = slider.value + 'px';
+                    const size = slider.value + 'px';
+                    asciiOutput.style.fontSize = size;
+                    fullscreenAsciiOutput.style.fontSize = size;
+                    broadcastLiveUpdate(); // Live scale syncing!
+                }
                 updateSliderFill(slider);
-                slider.addEventListener("input", () => {
-                    if (slider === widthSlider)
-                        widthDisplay.textContent = slider.value + " chars";
-                    if (slider === detailSlider)
-                        detailDisplay.textContent = slider.value + "%";
-                    if (slider === sharpenSlider)
-                        sharpenDisplay.textContent = slider.value + "%";
-                    if (slider === zoomSlider) {
-                        zoomDisplay.textContent = slider.value + "px";
-                        document.getElementById("asciiOutput").style.fontSize =
-                            slider.value + "px";
-                    }
-                    updateSliderFill(slider);
-                    if (slider !== zoomSlider) queueProcessing(200);
-                });
-            },
-        );
+                if(slider !== zoomSlider) queueProcessing(200);
+            });
+        });
 
-        invertCheck.addEventListener("change", () => queueProcessing());
-        ditherCheck.addEventListener("change", () => queueProcessing());
+        invertCheck.addEventListener('change', () => queueProcessing());
+        ditherCheck.addEventListener('change', () => queueProcessing());
 
-        resetBtn.addEventListener("click", () => {
+        resetBtn.addEventListener('click', () => {
             currentImage = null;
-            widthSlider.value = 150;
-            widthDisplay.textContent = "150 chars";
-            sharpenSlider.value = 50;
-            sharpenDisplay.textContent = "50%";
-            detailSlider.value = 50;
-            detailDisplay.textContent = "50%";
-            zoomSlider.value = 10;
-            zoomDisplay.textContent = "10px";
-            document.getElementById("asciiOutput").style.fontSize = "10px";
-            updateSliderFill(widthSlider);
-            updateSliderFill(sharpenSlider);
-            updateSliderFill(detailSlider);
-            updateSliderFill(zoomSlider);
+            widthSlider.value = 150; widthDisplay.textContent = '150 chars';
+            sharpenSlider.value = 50; sharpenDisplay.textContent = '50%';
+            detailSlider.value = 50; detailDisplay.textContent = '50%';
+            zoomSlider.value = 10; zoomDisplay.textContent = '10px';
+            document.getElementById('asciiOutput').style.fontSize = '10px';
+            fullscreenAsciiOutput.style.fontSize = '10px';
+            updateSliderFill(widthSlider); updateSliderFill(sharpenSlider); updateSliderFill(detailSlider); updateSliderFill(zoomSlider);
             invertCheck.checked = false;
-            ditherCheck.checked = false;
+            ditherCheck.checked = false; 
+            
+            // Hide Source Preview, Show Drop Prompt
+            sourceImagePreview.src = "";
+            imagePreviewContainer.classList.add('hidden');
+            dropZoneContent.classList.remove('hidden');
 
-            asciiOutput.textContent = "";
-            asciiOutput.style.opacity = "0";
-            placeholderText.style.display = "flex";
+            asciiOutput.textContent = '';
+            fullscreenAsciiOutput.textContent = '';
+            asciiOutput.style.opacity = '0';
+            placeholderText.style.display = 'flex';
+            
+            copyBtn.disabled = true; downloadBtn.disabled = true; openPreviewDialogBtn.disabled = true;
+            imageInput.value = '';
 
-            copyBtn.disabled = true;
-            downloadBtn.disabled = true;
-            imageInput.value = "";
+            broadcastLiveUpdate();
         });
 
         // ==========================================
@@ -844,35 +1076,31 @@
         // ==========================================
         function queueProcessing(delay = 50) {
             if (!currentImage) return;
-            loadingOverlay.classList.remove("hidden");
+            loadingOverlay.classList.remove('hidden');
             clearTimeout(processTimeout);
             processTimeout = setTimeout(() => {
                 requestAnimationFrame(() => generateBraille());
             }, delay);
         }
 
-        // Custom Edge Convolution (Sharpen)
         function applySharpenFilter(pixels, w, h, amount) {
             if (amount <= 0) return pixels;
-
             const src = new Uint8ClampedArray(pixels);
-            const dst = pixels;
+            const dst = pixels; 
             const w4 = w * 4;
-
-            const mix = (amount / 100) * 1.5;
-            const centerWeight = 1 + 4 * mix;
+            const mix = (amount / 100) * 1.5; 
+            const centerWeight = 1 + (4 * mix);
             const sideWeight = -mix;
 
             for (let y = 1; y < h - 1; y++) {
                 for (let x = 1; x < w - 1; x++) {
                     const off = (y * w + x) * 4;
                     for (let c = 0; c < 3; c++) {
-                        let val =
-                            src[off + c] * centerWeight +
-                            src[off - w4 + c] * sideWeight +
-                            src[off + w4 + c] * sideWeight +
-                            src[off - 4 + c] * sideWeight +
-                            src[off + 4 + c] * sideWeight;
+                        let val = src[off + c] * centerWeight
+                                + src[off - w4 + c] * sideWeight
+                                + src[off + w4 + c] * sideWeight
+                                + src[off - 4 + c] * sideWeight
+                                + src[off + 4 + c] * sideWeight;
                         dst[off + c] = val;
                     }
                 }
@@ -883,93 +1111,62 @@
         function generateBraille() {
             if (!currentImage) return;
 
-            // Target Dimensions (in Characters)
             const targetCharW = Math.max(1, parseInt(widthSlider.value) || 150);
-            const gammaAmt = parseInt(detailSlider.value) || 50;
+            const gammaAmt = parseInt(detailSlider.value) || 50; 
             const sharpenAmt = parseInt(sharpenSlider.value) || 50;
             const invert = invertCheck.checked;
             const applyDither = ditherCheck.checked;
-
-            const exactFontRatio = 0.5; // Braille characters are exactly 0.5 width/height ratio
-
+            
             let imgRatio = 1;
             if (currentImage.width > 0 && currentImage.height > 0) {
                 imgRatio = currentImage.height / currentImage.width;
             }
-
-            // Calculate height in characters
-            const targetCharH = Math.max(
-                1,
-                Math.floor(targetCharW * imgRatio * exactFontRatio),
-            );
-
-            // Braille uses a 2x4 dot matrix per character.
+            
+            const targetCharH = Math.max(1, Math.floor(targetCharW * imgRatio * exactFontRatio));
             const processW = targetCharW * 2;
             const processH = targetCharH * 4;
-
-            // Intermediate scaling for detail preservation
             const midW = Math.max(1, processW * 2);
             const midH = Math.max(1, processH * 2);
-
-            const oc = document.createElement("canvas");
-            const octx = oc.getContext("2d", { willReadFrequently: true });
-            oc.width = midW;
-            oc.height = midH;
-            octx.imageSmoothingEnabled = true;
-            octx.imageSmoothingQuality = "high";
+            
+            const oc = document.createElement('canvas');
+            const octx = oc.getContext('2d', { willReadFrequently: true });
+            oc.width = midW; oc.height = midH;
+            octx.imageSmoothingEnabled = true; octx.imageSmoothingQuality = 'high';
             octx.drawImage(currentImage, 0, 0, midW, midH);
 
-            // Apply Sharpening Matrix
             if (sharpenAmt > 0) {
                 let midData = octx.getImageData(0, 0, midW, midH);
-                midData.data.set(
-                    applySharpenFilter(midData.data, midW, midH, sharpenAmt),
-                );
+                midData.data.set(applySharpenFilter(midData.data, midW, midH, sharpenAmt));
                 octx.putImageData(midData, 0, 0);
             }
 
-            // Final render to exact pixel grid mapping to braille dots
-            const finalCanvas = document.createElement("canvas");
-            const fctx = finalCanvas.getContext("2d", { willReadFrequently: true });
-            finalCanvas.width = processW;
-            finalCanvas.height = processH;
-            fctx.imageSmoothingEnabled = true;
-            fctx.imageSmoothingQuality = "high";
+            const finalCanvas = document.createElement('canvas');
+            const fctx = finalCanvas.getContext('2d', { willReadFrequently: true });
+            finalCanvas.width = processW; finalCanvas.height = processH;
+            fctx.imageSmoothingEnabled = true; fctx.imageSmoothingQuality = 'high';
             fctx.drawImage(oc, 0, 0, midW, midH, 0, 0, processW, processH);
 
             const imgData = fctx.getImageData(0, 0, processW, processH);
             const pixels = imgData.data;
 
-            // Gamma Curve (Threshold logic)
-            const gamma = Math.pow(gammaAmt / 50, 1.5);
-
+            const gamma = Math.pow((gammaAmt / 50), 1.5); 
             let lums = [];
             for (let i = 0; i < pixels.length; i += 4) {
-                if (pixels[i + 3] > 10) {
-                    lums.push(
-                        0.299 * pixels[i] + 0.587 * pixels[i + 1] + 0.114 * pixels[i + 2],
-                    );
-                }
+                if (pixels[i+3] > 10) lums.push(0.299 * pixels[i] + 0.587 * pixels[i+1] + 0.114 * pixels[i+2]);
             }
             lums.sort((a, b) => a - b);
-
+            
             let minLum = lums[Math.floor(lums.length * 0.01)] || 0;
             let maxLum = lums[Math.floor(lums.length * 0.99)] || 255;
-            if (minLum >= maxLum) {
-                minLum = 0;
-                maxLum = 255;
-            }
+            if (minLum >= maxLum) { minLum = 0; maxLum = 255; }
 
             const lumMap = new Float32Array(processW * processH);
             for (let y = 0; y < processH; y++) {
                 for (let x = 0; x < processW; x++) {
                     const i = (y * processW + x) * 4;
-                    let lum = 255;
-                    if (pixels[i + 3] > 10) {
-                        const rawLum =
-                            0.299 * pixels[i] +
-                            0.587 * pixels[i + 1] +
-                            0.114 * pixels[i + 2];
+                    let lum = 255; 
+                    if (pixels[i+3] > 10) {
+                        const rawLum = 0.299 * pixels[i] + 0.587 * pixels[i+1] + 0.114 * pixels[i+2];
                         let normalized = (rawLum - minLum) / (maxLum - minLum);
                         normalized = Math.max(0, Math.min(1, normalized));
                         normalized = Math.pow(normalized, gamma);
@@ -979,53 +1176,36 @@
                 }
             }
 
-            // Floyd-Steinberg Dithering
             if (applyDither) {
                 for (let y = 0; y < processH; y++) {
                     for (let x = 0; x < processW; x++) {
                         const idx = y * processW + x;
                         const oldVal = lumMap[idx];
-
                         const newVal = oldVal < 128 ? 0 : 255;
                         lumMap[idx] = newVal;
-
                         const err = oldVal - newVal;
-                        if (x + 1 < processW) lumMap[idx + 1] += (err * 7) / 16;
+                        if (x + 1 < processW) lumMap[idx + 1] += err * 7 / 16;
                         if (y + 1 < processH) {
-                            if (x - 1 >= 0) lumMap[idx + processW - 1] += (err * 3) / 16;
-                            lumMap[idx + processW] += (err * 5) / 16;
-                            if (x + 1 < processW)
-                                lumMap[idx + processW + 1] += (err * 1) / 16;
+                            if (x - 1 >= 0) lumMap[idx + processW - 1] += err * 3 / 16;
+                            lumMap[idx + processW] += err * 5 / 16;
+                            if (x + 1 < processW) lumMap[idx + processW + 1] += err * 1 / 16;
                         }
                     }
                 }
             }
 
-            // Assemble Braille Characters
             let asciiStr = "";
-            const bitMap = [
-                [1, 8],
-                [2, 16],
-                [4, 32],
-                [64, 128],
-            ];
+            const bitMap = [[1, 8], [2, 16], [4, 32], [64, 128]];
 
             for (let cy = 0; cy < targetCharH; cy++) {
                 for (let cx = 0; cx < targetCharW; cx++) {
                     let dotValue = 0;
-
                     for (let dy = 0; dy < 4; dy++) {
                         for (let dx = 0; dx < 2; dx++) {
-                            const px = cx * 2 + dx;
-                            const py = cy * 4 + dy;
-                            const idx = py * processW + px;
-
+                            const idx = (cy * 4 + dy) * processW + (cx * 2 + dx);
                             let isDotOn = lumMap[idx] >= 128;
                             if (invert) isDotOn = !isDotOn;
-
-                            if (isDotOn) {
-                                dotValue += bitMap[dy][dx];
-                            }
+                            if (isDotOn) dotValue += bitMap[dy][dx];
                         }
                     }
                     asciiStr += String.fromCharCode(10240 + dotValue);
@@ -1033,48 +1213,40 @@
                 asciiStr += "\n";
             }
 
-            // Commit to DOM
+            // Sync to local DOMs instantly
             asciiOutput.textContent = asciiStr;
-            placeholderText.style.display = "none";
-            asciiOutput.style.opacity = "1";
+            fullscreenAsciiOutput.textContent = asciiStr; 
+            
+            placeholderText.style.display = 'none';
+            asciiOutput.style.opacity = '1';
+            
+            copyBtn.disabled = false; downloadBtn.disabled = false; openPreviewDialogBtn.disabled = false;
+            setTimeout(() => loadingOverlay.classList.add('hidden'), 50);
 
-            copyBtn.disabled = false;
-            downloadBtn.disabled = false;
-            setTimeout(() => loadingOverlay.classList.add("hidden"), 50);
+            // Stream state updates to all active external tabs and windows
+            broadcastLiveUpdate();
         }
 
         // ==========================================
         // OUTPUT ACTIONS
         // ==========================================
-        copyBtn.addEventListener("click", async () => {
+        copyBtn.addEventListener('click', async () => {
             const textToCopy = asciiOutput.textContent;
             if (!textToCopy) return;
 
-            const copyIcon = document.getElementById("copyIcon");
-            const copySuccessIcon = document.getElementById("copySuccessIcon");
-            const copyText = document.getElementById("copyText");
-
+            const copyIcon = document.getElementById('copyIcon');
+            const copySuccessIcon = document.getElementById('copySuccessIcon');
+            const copyText = document.getElementById('copyText');
+            
             const showSuccess = () => {
-                copyIcon.classList.add("hidden");
-                copySuccessIcon.classList.remove("hidden");
+                copyIcon.classList.add('hidden'); copySuccessIcon.classList.remove('hidden');
                 copyText.textContent = translations[currentLang].copied;
-                copyBtn.classList.add(
-                    "bg-emerald-500/10",
-                    "text-emerald-500",
-                    "border",
-                    "border-emerald-500/20",
-                );
-
+                copyBtn.classList.add('bg-emerald-500/10', 'text-emerald-500', 'border', 'border-emerald-500/20');
+                
                 setTimeout(() => {
-                    copyIcon.classList.remove("hidden");
-                    copySuccessIcon.classList.add("hidden");
+                    copyIcon.classList.remove('hidden'); copySuccessIcon.classList.add('hidden');
                     copyText.textContent = translations[currentLang].copyText;
-                    copyBtn.classList.remove(
-                        "bg-emerald-500/10",
-                        "text-emerald-500",
-                        "border",
-                        "border-emerald-500/20",
-                    );
+                    copyBtn.classList.remove('bg-emerald-500/10', 'text-emerald-500', 'border', 'border-emerald-500/20');
                 }, 2000);
             };
 
@@ -1082,26 +1254,12 @@
                 const textArea = document.createElement("textarea");
                 textArea.value = text;
                 textArea.style.position = "fixed";
-                textArea.style.top = "0";
-                textArea.style.left = "0";
-                textArea.style.width = "2em";
-                textArea.style.height = "2em";
-                textArea.style.padding = "0";
-                textArea.style.border = "none";
-                textArea.style.outline = "none";
-                textArea.style.boxShadow = "none";
-                textArea.style.background = "transparent";
                 document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-
+                textArea.focus(); textArea.select();
                 try {
-                    const successful = document.execCommand("copy");
+                    const successful = document.execCommand('copy');
                     if (successful) showSuccess();
-                    else console.error("Fallback copy failed");
-                } catch (err) {
-                    console.error("Fallback copy error", err);
-                }
+                } catch (err) {}
                 document.body.removeChild(textArea);
             };
 
@@ -1112,27 +1270,11 @@
                 } else {
                     fallbackCopyTextToClipboard(textToCopy);
                 }
-            } catch (err) {
-                console.warn("Clipboard API failed, using fallback", err);
-                fallbackCopyTextToClipboard(textToCopy);
-            }
+            } catch (err) { fallbackCopyTextToClipboard(textToCopy); }
         });
 
-        downloadBtn.addEventListener("click", () => {
-            if (!asciiOutput.textContent) return;
-            const blob = new Blob([asciiOutput.textContent], {
-                type: "text/plain",
-            });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `braille-art-${Date.now()}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
+        downloadBtn.addEventListener('click', openSaveDialog);
+
     </script>
 </body>
-
 </html>
